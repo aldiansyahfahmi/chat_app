@@ -1,3 +1,5 @@
+import 'package:chat_app/shared_libraries/utils/navigation/router/splash_router.dart';
+
 import '../../../injections/injections.dart';
 import '../navigation/navigation_helper.dart';
 
@@ -11,5 +13,11 @@ class RegisterUtilsModule {
         () => NavigationHelperImpl(),
       );
 
-  void _routers() {}
+  void _routers() {
+    sl.registerLazySingleton<SplashRouter>(
+      () => SplashRouterImpl(
+        navigationHelper: sl(),
+      ),
+    );
+  }
 }

@@ -1,5 +1,10 @@
+import 'package:chat_app/injections/injections.dart';
+import 'package:chat_app/presentation/auth/ui/sign_in_screen.dart';
+import 'package:chat_app/presentation/chat/ui/chat_screen.dart';
+import 'package:chat_app/presentation/splash/bloc/splash_cubit/splash_cubit.dart';
 import 'package:chat_app/presentation/splash/ui/splash_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:page_transition/page_transition.dart';
 import '../shared_libraries/utils/navigation/navigation_helper.dart';
@@ -29,18 +34,28 @@ class MyApp extends StatelessWidget {
               child: child!,
             );
           },
-          home: const SplashScreen(),
+          home: BlocProvider(
+            create: (context) => SplashCubit(
+              getTokenUseCase: sl(),
+            )..initSplash(),
+            child: SplashScreen(),
+          ),
           navigatorKey: NavigationHelperImpl.navigatorKey,
           onGenerateRoute: (settings) {
             switch (settings.name) {
-              case AppRoutes.home:
+              case AppRoutes.signIn:
                 return PageTransition(
-                  child: const SplashScreen(),
+                  child: const SignInScreen(),
+                  type: PageTransitionType.rightToLeft,
+                );
+              case AppRoutes.chat:
+                return PageTransition(
+                  child: const ChatScreen(),
                   type: PageTransitionType.rightToLeft,
                 );
               default:
                 return PageTransition(
-                  child: const SplashScreen(),
+                  child: SplashScreen(),
                   type: PageTransitionType.rightToLeft,
                 );
             }
