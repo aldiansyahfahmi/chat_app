@@ -1,3 +1,4 @@
+import 'package:chat_app/domains/auth/di/auth_dependency.dart';
 import 'package:get_it/get_it.dart';
 
 import '../shared_libraries/core/di/core_module.dart';
@@ -16,5 +17,7 @@ class Injections {
     RegisterUtilsModule();
   }
 
-  void _registerDomains() {}
+  void _registerDomains() {
+    AuthDependency();
+  }
 }
