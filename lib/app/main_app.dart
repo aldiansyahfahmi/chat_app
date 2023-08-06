@@ -1,5 +1,6 @@
 import 'package:chat_app/injections/injections.dart';
 import 'package:chat_app/presentation/auth/ui/sign_in_screen.dart';
+import 'package:chat_app/presentation/auth/ui/sign_up_screen.dart';
 import 'package:chat_app/presentation/chat/ui/chat_screen.dart';
 import 'package:chat_app/presentation/splash/bloc/splash_cubit/splash_cubit.dart';
 import 'package:chat_app/presentation/splash/ui/splash_screen.dart';
@@ -46,6 +47,11 @@ class MyApp extends StatelessWidget {
               case AppRoutes.signIn:
                 return PageTransition(
                   child: const SignInScreen(),
+                  type: PageTransitionType.rightToLeft,
+                );
+              case AppRoutes.signUp:
+                return PageTransition(
+                  child: const SignUpScreen(),
                   type: PageTransitionType.rightToLeft,
                 );
               case AppRoutes.chat:
