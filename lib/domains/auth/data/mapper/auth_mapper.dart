@@ -7,6 +7,8 @@ class AuthMapper {
               AuthWithEmailAndPasswordRequestEntity requestEntity) =>
           AuthWithEmailAndPasswordRequestDto(
             email: requestEntity.email,
+            username: requestEntity.username,
+            photo: requestEntity.photo,
             password: requestEntity.password,
           );
 }

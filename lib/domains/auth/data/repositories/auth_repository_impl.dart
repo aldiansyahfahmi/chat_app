@@ -32,16 +32,16 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<Either<FailureResponse, UserCredential>> signUpWithEmailAndPassword(
+  Future<Either<FailureResponse, bool>> signUpWithEmailAndPassword(
       {required AuthWithEmailAndPasswordRequestEntity requestEntity}) async {
     try {
-      final credential = await authRemoteDataSource.signUpWithEmailAndPassword(
+      final result = await authRemoteDataSource.signUpWithEmailAndPassword(
         requestDto: authMapper
             .mapAuthWithEmailAndPasswordRequestEntityToAuthWithEmailAndPasswordRequestDto(
           requestEntity,
         ),
       );
-      return Right(credential);
+      return Right(result);
     } on FirebaseAuthException catch (error) {
       return Left(
         FailureResponse(

@@ -33,7 +33,7 @@ class SignUpWithEmailAndPasswordBloc extends Bloc<
               ),
             ),
           ),
-          (result) async {
+          (result) {
             emit(
               SignUpWithEmailAndPasswordState(
                 signUpWithEmailAndPasswordState: ViewData.loaded(data: result),

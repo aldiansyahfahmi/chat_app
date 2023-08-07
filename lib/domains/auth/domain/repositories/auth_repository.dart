@@ -6,7 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 abstract class AuthRepository {
   Future<Either<FailureResponse, bool>> isUserLogged();
-  Future<Either<FailureResponse, UserCredential>> signUpWithEmailAndPassword(
+  Future<Either<FailureResponse, bool>> signUpWithEmailAndPassword(
       {required AuthWithEmailAndPasswordRequestEntity requestEntity});
   Future<Either<FailureResponse, UserCredential>> signInWithEmailAndPassword(
       {required AuthWithEmailAndPasswordRequestEntity requestEntity});

@@ -1,9 +1,10 @@
 import 'package:chat_app/domains/auth/data/models/body/auth_with_email_and_password_request_dto.dart';
+import 'package:chat_app/shared_libraries/utils/helpers/firestore_collection.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 abstract class AuthRemoteDataSource {
   Future<bool> isUserLogged();
-  Future<UserCredential> signUpWithEmailAndPassword(
+  Future<bool> signUpWithEmailAndPassword(
       {required AuthWithEmailAndPasswordRequestDto requestDto});
   Future<UserCredential> signInWithEmailAndPassword(
       {required AuthWithEmailAndPasswordRequestDto requestDto});
@@ -11,7 +12,9 @@ abstract class AuthRemoteDataSource {
 }
 
 class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
+  final FirestoreCollection firestoreCollection = FirestoreCollection();
   final _auth = FirebaseAuth.instance;
+
   @override
   Future<bool> isUserLogged() async {
     try {
@@ -23,14 +26,21 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   }
 
   @override
-  Future<UserCredential> signUpWithEmailAndPassword(
+  Future<bool> signUpWithEmailAndPassword(
       {required AuthWithEmailAndPasswordRequestDto requestDto}) async {
     try {
       final credential = await _auth.createUserWithEmailAndPassword(
         email: requestDto.email,
         password: requestDto.password,
       );
-      return credential;
+      if (credential.user != null) {
+        await firestoreCollection.usersCollection
+            .doc(requestDto.email)
+            .set(requestDto.toJson());
+        return true;
+      } else {
+        return false;
+      }
     } catch (e) {
       rethrow;
     }

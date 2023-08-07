@@ -17,6 +17,7 @@ class SignUpScreen extends StatelessWidget {
 
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
+  final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
 
   @override
@@ -84,6 +85,20 @@ class SignUpScreen extends StatelessWidget {
                     height: 24.h,
                   ),
                   CustomTextField(
+                    controller: _usernameController,
+                    labelText: 'Username',
+                    hintText: 'Enter your username...',
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'Can not be empty';
+                      }
+                      return null;
+                    },
+                  ),
+                  SizedBox(
+                    height: 16.h,
+                  ),
+                  CustomTextField(
                     controller: _emailController,
                     labelText: 'Email',
                     hintText: 'Enter your email...',
@@ -121,6 +136,8 @@ class SignUpScreen extends StatelessWidget {
                                 authWithEmailAndPasswordRequestEntity:
                                     AuthWithEmailAndPasswordRequestEntity(
                                   email: _emailController.text.trim(),
+                                  username: _usernameController.text.trim(),
+                                  photo: '',
                                   password: _passwordController.text.trim(),
                                 ),
                               ),

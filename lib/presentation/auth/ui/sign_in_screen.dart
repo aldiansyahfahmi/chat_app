@@ -141,9 +141,11 @@ class SignInScreen extends StatelessWidget {
                               SignInWithEmailAndPassword(
                                 authWithEmailAndPasswordRequestEntity:
                                     AuthWithEmailAndPasswordRequestEntity(
-                                  email: _emailController.text.trim(),
-                                  password: _passwordController.text.trim(),
-                                ),
+                                        email: _emailController.text.trim(),
+                                        password:
+                                            _passwordController.text.trim(),
+                                        username: '',
+                                        photo: ''),
                               ),
                             );
                       }
