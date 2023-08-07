@@ -18,6 +18,6 @@ class SplashRouterImpl implements SplashRouter {
 
   @override
   void navigateToChatScreen() {
-    navigationHelper.pushNamed(AppRoutes.signIn);
+    navigationHelper.pushNamed(AppRoutes.chat);
   }
 }
