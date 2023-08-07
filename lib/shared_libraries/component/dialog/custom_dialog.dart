@@ -75,8 +75,8 @@ class CustomDialog {
                                 child: CustomButton(
                                   buttonText: 'Batal',
                                   buttonColor: ColorName.white,
-                                  borderColor: ColorName.blue,
-                                  buttonTextColor: ColorName.blue,
+                                  borderColor: ColorName.main,
+                                  buttonTextColor: ColorName.main,
                                   onTap: () => Navigator.pop(context),
                                 ),
                               ),

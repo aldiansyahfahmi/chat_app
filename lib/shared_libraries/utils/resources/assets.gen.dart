@@ -20,7 +20,23 @@ class $AssetsImagesGen {
 class $AssetsImagesIconsGen {
   const $AssetsImagesIconsGen();
 
+  $AssetsImagesIconsAuthGen get auth => const $AssetsImagesIconsAuthGen();
   $AssetsImagesIconsDialogGen get dialog => const $AssetsImagesIconsDialogGen();
+}
+
+class $AssetsImagesIconsAuthGen {
+  const $AssetsImagesIconsAuthGen();
+
+  /// File path: assets/images/icons/auth/facebook.svg
+  SvgGenImage get facebook =>
+      const SvgGenImage('assets/images/icons/auth/facebook.svg');
+
+  /// File path: assets/images/icons/auth/google.svg
+  SvgGenImage get google =>
+      const SvgGenImage('assets/images/icons/auth/google.svg');
+
+  /// List of all assets
+  List<SvgGenImage> get values => [facebook, google];
 }
 
 class $AssetsImagesIconsDialogGen {

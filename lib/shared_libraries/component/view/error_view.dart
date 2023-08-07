@@ -38,7 +38,7 @@ class ErrorView extends StatelessWidget {
                 children: [
                   const Icon(
                     Icons.refresh,
-                    color: ColorName.blue,
+                    color: ColorName.main,
                   ),
                   SizedBox(
                     width: 4.w,
@@ -47,7 +47,7 @@ class ErrorView extends StatelessWidget {
                     'Refresh',
                     style: TextStyle(
                       fontSize: 14.sp,
-                      color: ColorName.blue,
+                      color: ColorName.main,
                       fontWeight: FontWeight.bold,
                     ),
                   ),

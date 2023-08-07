@@ -73,7 +73,7 @@ class ChevronButton extends StatelessWidget {
                     if (iconChevronRight == true)
                       Icon(
                         Icons.chevron_right,
-                        color: ColorName.blue,
+                        color: ColorName.main,
                         size: 24.sp,
                       ),
                   ],

@@ -15,7 +15,7 @@ class CustomButton extends StatelessWidget {
 
   const CustomButton({
     Key? key,
-    this.buttonColor = ColorName.blue,
+    this.buttonColor = ColorName.main,
     required this.buttonText,
     this.buttonTextColor = ColorName.white,
     this.borderColor,
