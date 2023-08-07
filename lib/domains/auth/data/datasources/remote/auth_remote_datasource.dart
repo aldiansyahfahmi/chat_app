@@ -1,13 +1,14 @@
-import 'package:chat_app/domains/auth/data/models/body/auth_with_email_and_password_request_dto.dart';
+import 'package:chat_app/domains/auth/data/models/body/sign_in_with_email_and_password_request_dto.dart';
+import 'package:chat_app/domains/auth/data/models/body/sign_up_with_email_and_password_request_dto.dart';
 import 'package:chat_app/shared_libraries/utils/helpers/firestore_collection.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 abstract class AuthRemoteDataSource {
   Future<bool> isUserLogged();
-  Future<bool> signUpWithEmailAndPassword(
-      {required AuthWithEmailAndPasswordRequestDto requestDto});
+  Future<void> signUpWithEmailAndPassword(
+      {required SignUpWithEmailAndPasswordRequestDto requestDto});
   Future<UserCredential> signInWithEmailAndPassword(
-      {required AuthWithEmailAndPasswordRequestDto requestDto});
+      {required SignInWithEmailAndPasswordRequestDto requestDto});
   Future<void> signOut();
 }
 
@@ -26,8 +27,8 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   }
 
   @override
-  Future<bool> signUpWithEmailAndPassword(
-      {required AuthWithEmailAndPasswordRequestDto requestDto}) async {
+  Future<void> signUpWithEmailAndPassword(
+      {required SignUpWithEmailAndPasswordRequestDto requestDto}) async {
     try {
       final credential = await _auth.createUserWithEmailAndPassword(
         email: requestDto.email,
@@ -37,9 +38,6 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
         await firestoreCollection.usersCollection
             .doc(requestDto.email)
             .set(requestDto.toJson());
-        return true;
-      } else {
-        return false;
       }
     } catch (e) {
       rethrow;
@@ -48,7 +46,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
 
   @override
   Future<UserCredential> signInWithEmailAndPassword(
-      {required AuthWithEmailAndPasswordRequestDto requestDto}) async {
+      {required SignInWithEmailAndPasswordRequestDto requestDto}) async {
     try {
       final credential = await _auth.signInWithEmailAndPassword(
         email: requestDto.email,

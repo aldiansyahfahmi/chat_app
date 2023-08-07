@@ -1,4 +1,4 @@
-import 'package:chat_app/domains/auth/domain/entities/body/auth_with_email_and_password_request_entity.dart';
+import 'package:chat_app/domains/auth/domain/entities/body/sign_in_with_email_and_password_request_entity.dart';
 import 'package:chat_app/injections/injections.dart';
 import 'package:chat_app/presentation/auth/bloc/sign_in_with_email_and_password_bloc/sign_in_with_email_and_password_bloc.dart';
 import 'package:chat_app/presentation/auth/bloc/sign_in_with_email_and_password_bloc/sign_in_with_email_and_password_event.dart';
@@ -140,12 +140,10 @@ class SignInScreen extends StatelessWidget {
                         context.read<SignInWithEmailAndPasswordBloc>().add(
                               SignInWithEmailAndPassword(
                                 authWithEmailAndPasswordRequestEntity:
-                                    AuthWithEmailAndPasswordRequestEntity(
-                                        email: _emailController.text.trim(),
-                                        password:
-                                            _passwordController.text.trim(),
-                                        username: '',
-                                        photo: ''),
+                                    SignInWithEmailAndPasswordRequestEntity(
+                                  email: _emailController.text.trim(),
+                                  password: _passwordController.text.trim(),
+                                ),
                               ),
                             );
                       }

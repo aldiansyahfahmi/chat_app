@@ -1,4 +1,4 @@
-import 'package:chat_app/domains/auth/domain/entities/body/auth_with_email_and_password_request_entity.dart';
+import 'package:chat_app/domains/auth/domain/entities/body/sign_up_with_email_and_password_request_entity.dart';
 import 'package:equatable/equatable.dart';
 
 abstract class SignUpWithEmailAndPasswordEvent extends Equatable {
@@ -6,7 +6,7 @@ abstract class SignUpWithEmailAndPasswordEvent extends Equatable {
 }
 
 class SignUpWithEmailAndPassword extends SignUpWithEmailAndPasswordEvent {
-  final AuthWithEmailAndPasswordRequestEntity
+  final SignUpWithEmailAndPasswordRequestEntity
       authWithEmailAndPasswordRequestEntity;
 
   const SignUpWithEmailAndPassword(

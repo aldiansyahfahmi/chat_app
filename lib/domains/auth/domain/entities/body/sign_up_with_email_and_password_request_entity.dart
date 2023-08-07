@@ -1,10 +1,10 @@
-class AuthWithEmailAndPasswordRequestEntity {
+class SignUpWithEmailAndPasswordRequestEntity {
   final String email;
   final String username;
   final String photo;
   final String password;
 
-  AuthWithEmailAndPasswordRequestEntity({
+  SignUpWithEmailAndPasswordRequestEntity({
     required this.email,
     required this.username,
     required this.photo,

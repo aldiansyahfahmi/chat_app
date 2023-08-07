@@ -1,10 +1,10 @@
-class AuthWithEmailAndPasswordRequestDto {
+class SignUpWithEmailAndPasswordRequestDto {
   final String email;
   final String username;
   final String photo;
   final String password;
 
-  AuthWithEmailAndPasswordRequestDto({
+  SignUpWithEmailAndPasswordRequestDto({
     required this.email,
     required this.username,
     required this.photo,
