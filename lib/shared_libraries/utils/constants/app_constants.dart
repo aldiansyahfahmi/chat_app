@@ -31,11 +31,17 @@ class AppApi {
 class ErrorKey {
   const ErrorKey();
 
-  String get message => "message";
+  String get weakPassword => "weak-password";
+
+  String get emailAlreadyInUse => "email-already-in-use";
 }
 
 class ErrorMessage {
   const ErrorMessage();
 
   String get failedGetToken => 'failed get token';
+
+  String get weakPassword => 'The password provided is too weak.';
+
+  String get emailAlreadyInUse => 'The account already exists for that email.';
 }

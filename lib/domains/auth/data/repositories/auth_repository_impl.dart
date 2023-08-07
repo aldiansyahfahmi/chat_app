@@ -1,22 +1,29 @@
-import 'package:chat_app/domains/auth/data/datasources/local/auth_local_datasource.dart';
+import 'package:chat_app/domains/auth/data/datasources/remote/auth_remote_datasource.dart';
+import 'package:chat_app/domains/auth/data/mapper/auth_mapper.dart';
+import 'package:chat_app/domains/auth/domain/entities/body/sign_up_with_email_and_password_request_entity.dart';
 import 'package:chat_app/domains/auth/domain/repositories/auth_repository.dart';
 import 'package:chat_app/shared_libraries/utils/error/failure_response.dart';
 import 'package:dartz/dartz.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class AuthRepositoryImpl implements AuthRepository {
-  final AuthLocalDataSource authLocalDataSource;
+  final AuthRemoteDataSource authRemoteDataSource;
+  final AuthMapper authMapper;
 
-  AuthRepositoryImpl({required this.authLocalDataSource});
+  AuthRepositoryImpl({
+    required this.authRemoteDataSource,
+    required this.authMapper,
+  });
+
   @override
-  Future<Either<FailureResponse, bool>> cachedToken(
-      {required String token}) async {
+  Future<Either<FailureResponse, bool>> isUserLogged() async {
     try {
-      await authLocalDataSource.cachedToken(token: token);
-      return const Right(true);
-    } on Exception catch (error) {
+      final result = await authRemoteDataSource.isUserLogged();
+      return Right(result);
+    } on FirebaseAuthException catch (error) {
       return Left(
         FailureResponse(
-          errorMessage: error.toString(),
+          errorMessage: error.message!,
           statusCode: 500,
         ),
       );
@@ -24,32 +31,20 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<Either<FailureResponse, String>> getToken() async {
+  Future<Either<FailureResponse, UserCredential>> signUpWithEmailAndPassword(
+      {required SignUpWithEmailAndPasswordRequestEntity requestEntity}) async {
     try {
-      final response = await authLocalDataSource.getToken();
-      return Right(response);
-    } on Exception catch (error) {
-      return Left(
-        FailureResponse(
-          errorMessage: error.toString(),
-          statusCode: 500,
+      final credential = await authRemoteDataSource.signUpWithEmailAndPassword(
+        requestDto: authMapper
+            .mapSignUpWithEmailAndPasswordRequestEntityToSignUpWithEmailAndPasswordRequestDto(
+          requestEntity,
         ),
       );
-    }
-  }
-
-  @override
-  Future<Either<FailureResponse, bool>> removeUserData() async {
-    try {
-      final response = await authLocalDataSource.removeUserData();
-
-      return Right(
-        response,
-      );
-    } on Exception catch (error) {
+      return Right(credential);
+    } on FirebaseAuthException catch (error) {
       return Left(
         FailureResponse(
-          errorMessage: error.toString(),
+          errorMessage: error.message!,
           statusCode: 500,
         ),
       );

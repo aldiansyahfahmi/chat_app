@@ -1,9 +1,9 @@
-import 'package:chat_app/domains/auth/data/datasources/local/auth_local_datasource.dart';
+import 'package:chat_app/domains/auth/data/datasources/remote/auth_remote_datasource.dart';
+import 'package:chat_app/domains/auth/data/mapper/auth_mapper.dart';
 import 'package:chat_app/domains/auth/data/repositories/auth_repository_impl.dart';
 import 'package:chat_app/domains/auth/domain/repositories/auth_repository.dart';
-import 'package:chat_app/domains/auth/domain/usecases/cache_token_usecase.dart';
-import 'package:chat_app/domains/auth/domain/usecases/get_token_usecase.dart';
-import 'package:chat_app/domains/auth/domain/usecases/remove_user_data_usecase.dart';
+import 'package:chat_app/domains/auth/domain/usecases/is_user_logged_usecase.dart';
+import 'package:chat_app/domains/auth/domain/usecases/sign_up_with_email_and_password_usecase.dart';
 import 'package:chat_app/injections/injections.dart';
 
 class AuthDependency {
@@ -15,28 +15,34 @@ class AuthDependency {
   }
 
   void _registerDataSource() {
-    sl.registerLazySingleton<AuthLocalDataSource>(
-      () => AuthLocalDataSourceImpl(),
+    sl.registerLazySingleton<AuthRemoteDataSource>(
+      () => AuthRemoteDataSourceImpl(),
     );
   }
 
-  void _registerMapper() {}
+  void _registerMapper() {
+    sl.registerLazySingleton<AuthMapper>(() => AuthMapper());
+  }
 
   void _registerRepository() {
     sl.registerLazySingleton<AuthRepository>(
-      () => AuthRepositoryImpl(authLocalDataSource: sl()),
+      () => AuthRepositoryImpl(
+        authRemoteDataSource: sl(),
+        authMapper: sl(),
+      ),
     );
   }
 
   void _registerUseCases() {
-    sl.registerLazySingleton<CacheTokenUseCase>(
-      () => CacheTokenUseCase(authRepository: sl()),
+    sl.registerLazySingleton<IsUserLoggedUseCase>(
+      () => IsUserLoggedUseCase(
+        authRepository: sl(),
+      ),
     );
-    sl.registerLazySingleton<GetTokenUseCase>(
-      () => GetTokenUseCase(authRepository: sl()),
-    );
-    sl.registerLazySingleton<RemoveUserDataUseCase>(
-      () => RemoveUserDataUseCase(authRepository: sl()),
+    sl.registerLazySingleton<SignUpWithEmailAndPasswordUseCase>(
+      () => SignUpWithEmailAndPasswordUseCase(
+        authRepository: sl(),
+      ),
     );
   }
 }

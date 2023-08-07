@@ -1,4 +1,5 @@
 import 'package:chat_app/injections/injections.dart';
+import 'package:chat_app/presentation/auth/bloc/sign_up_with_email_and_password_bloc/sign_up_with_email_and_password_bloc.dart';
 import 'package:chat_app/presentation/auth/ui/sign_in_screen.dart';
 import 'package:chat_app/presentation/auth/ui/sign_up_screen.dart';
 import 'package:chat_app/presentation/chat/ui/chat_screen.dart';
@@ -37,7 +38,7 @@ class MyApp extends StatelessWidget {
           },
           home: BlocProvider(
             create: (context) => SplashCubit(
-              getTokenUseCase: sl(),
+              isUserLoggedUseCase: sl(),
             )..initSplash(),
             child: SplashScreen(),
           ),
@@ -51,7 +52,12 @@ class MyApp extends StatelessWidget {
                 );
               case AppRoutes.signUp:
                 return PageTransition(
-                  child: const SignUpScreen(),
+                  child: BlocProvider(
+                    create: (context) => SignUpWithEmailAndPasswordBloc(
+                      signUpWithEmailAndPasswordUseCase: sl(),
+                    ),
+                    child: SignUpScreen(),
+                  ),
                   type: PageTransitionType.rightToLeft,
                 );
               case AppRoutes.chat:
