@@ -23,7 +23,7 @@ class SignUpWithEmailAndPasswordBloc extends Bloc<
           ),
         );
         final result = await signUpWithEmailAndPasswordUseCase
-            .call(event.signUpWithEmailAndPasswordRequestEntity);
+            .call(event.authWithEmailAndPasswordRequestEntity);
         result.fold(
           (failure) async => emit(
             SignUpWithEmailAndPasswordState(

@@ -5,14 +5,14 @@ import 'package:chat_app/shared_libraries/utils/error/failure_response.dart';
 import 'package:chat_app/shared_libraries/utils/usecase/usecase.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-class SignUpWithEmailAndPasswordUseCase
+class SignInWithEmailAndPasswordUseCase
     extends UseCase<UserCredential, AuthWithEmailAndPasswordRequestEntity> {
   final AuthRepository authRepository;
 
-  SignUpWithEmailAndPasswordUseCase({required this.authRepository});
+  SignInWithEmailAndPasswordUseCase({required this.authRepository});
 
   @override
   Future<Either<FailureResponse, UserCredential>> call(
           AuthWithEmailAndPasswordRequestEntity params) async =>
-      await authRepository.signUpWithEmailAndPassword(requestEntity: params);
+      await authRepository.signInWithEmailAndPassword(requestEntity: params);
 }

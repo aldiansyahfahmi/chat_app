@@ -3,6 +3,7 @@ import 'package:chat_app/domains/auth/data/mapper/auth_mapper.dart';
 import 'package:chat_app/domains/auth/data/repositories/auth_repository_impl.dart';
 import 'package:chat_app/domains/auth/domain/repositories/auth_repository.dart';
 import 'package:chat_app/domains/auth/domain/usecases/is_user_logged_usecase.dart';
+import 'package:chat_app/domains/auth/domain/usecases/sign_in_with_email_and_password_usecase.dart';
 import 'package:chat_app/domains/auth/domain/usecases/sign_up_with_email_and_password_usecase.dart';
 import 'package:chat_app/injections/injections.dart';
 
@@ -41,6 +42,11 @@ class AuthDependency {
     );
     sl.registerLazySingleton<SignUpWithEmailAndPasswordUseCase>(
       () => SignUpWithEmailAndPasswordUseCase(
+        authRepository: sl(),
+      ),
+    );
+    sl.registerLazySingleton<SignInWithEmailAndPasswordUseCase>(
+      () => SignInWithEmailAndPasswordUseCase(
         authRepository: sl(),
       ),
     );

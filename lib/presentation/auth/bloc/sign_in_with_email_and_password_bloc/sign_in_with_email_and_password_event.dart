@@ -1,15 +1,15 @@
 import 'package:chat_app/domains/auth/domain/entities/body/auth_with_email_and_password_request_entity.dart';
 import 'package:equatable/equatable.dart';
 
-abstract class SignUpWithEmailAndPasswordEvent extends Equatable {
-  const SignUpWithEmailAndPasswordEvent();
+abstract class SignInWithEmailAndPasswordEvent extends Equatable {
+  const SignInWithEmailAndPasswordEvent();
 }
 
-class SignUpWithEmailAndPassword extends SignUpWithEmailAndPasswordEvent {
+class SignInWithEmailAndPassword extends SignInWithEmailAndPasswordEvent {
   final AuthWithEmailAndPasswordRequestEntity
       authWithEmailAndPasswordRequestEntity;
 
-  const SignUpWithEmailAndPassword(
+  const SignInWithEmailAndPassword(
       {required this.authWithEmailAndPasswordRequestEntity});
 
   @override

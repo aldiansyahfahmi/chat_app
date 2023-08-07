@@ -1,7 +1,7 @@
-class SignUpWithEmailAndPasswordRequestDto {
+class AuthWithEmailAndPasswordRequestDto {
   final String email;
   final String password;
 
-  SignUpWithEmailAndPasswordRequestDto(
+  AuthWithEmailAndPasswordRequestDto(
       {required this.email, required this.password});
 }

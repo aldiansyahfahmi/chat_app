@@ -1,4 +1,5 @@
 import 'package:chat_app/injections/injections.dart';
+import 'package:chat_app/presentation/auth/bloc/sign_in_with_email_and_password_bloc/sign_in_with_email_and_password_bloc.dart';
 import 'package:chat_app/presentation/auth/bloc/sign_up_with_email_and_password_bloc/sign_up_with_email_and_password_bloc.dart';
 import 'package:chat_app/presentation/auth/ui/sign_in_screen.dart';
 import 'package:chat_app/presentation/auth/ui/sign_up_screen.dart';
@@ -47,7 +48,12 @@ class MyApp extends StatelessWidget {
             switch (settings.name) {
               case AppRoutes.signIn:
                 return PageTransition(
-                  child: SignInScreen(),
+                  child: BlocProvider(
+                    create: (context) => SignInWithEmailAndPasswordBloc(
+                      signInWithEmailAndPasswordUseCase: sl(),
+                    ),
+                    child: SignInScreen(),
+                  ),
                   type: PageTransitionType.rightToLeft,
                 );
               case AppRoutes.signUp:
