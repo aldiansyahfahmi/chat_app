@@ -46,7 +46,7 @@ class MyApp extends StatelessWidget {
             switch (settings.name) {
               case AppRoutes.signIn:
                 return PageTransition(
-                  child: const SignInScreen(),
+                  child: SignInScreen(),
                   type: PageTransitionType.rightToLeft,
                 );
               case AppRoutes.signUp:

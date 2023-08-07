@@ -1,12 +1,16 @@
+import 'package:chat_app/injections/injections.dart';
 import 'package:chat_app/shared_libraries/component/button/custom_button.dart';
 import 'package:chat_app/shared_libraries/component/text_field/custom_text_field.dart';
+import 'package:chat_app/shared_libraries/utils/navigation/router/auth_router.dart';
 import 'package:chat_app/shared_libraries/utils/resources/assets.gen.dart';
 import 'package:chat_app/shared_libraries/utils/resources/colors.gen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class SignInScreen extends StatelessWidget {
-  const SignInScreen({super.key});
+  SignInScreen({super.key});
+
+  final AuthRouter _authRouter = sl();
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +19,7 @@ class SignInScreen extends StatelessWidget {
         color: ColorName.white,
         padding: const EdgeInsets.all(24),
         child: GestureDetector(
-          onTap: () => {},
+          onTap: () => _authRouter.navigateToSignUpScreen(),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -60,7 +64,7 @@ class SignInScreen extends StatelessWidget {
                 ),
               ),
               SizedBox(
-                height: 16.h,
+                height: 24.h,
               ),
               const CustomTextField(
                 labelText: 'Email',
