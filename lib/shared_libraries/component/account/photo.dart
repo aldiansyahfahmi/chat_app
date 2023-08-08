@@ -1,5 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:chat_app/domains/account/domain/entities/response/user_response_entity.dart';
+import 'package:chat_app/domains/user/domain/entities/response/user_data_entity.dart';
 import 'package:chat_app/shared_libraries/component/loading/shimmer_loading.dart';
 import 'package:chat_app/shared_libraries/utils/extensions/name_extension.dart';
 import 'package:chat_app/shared_libraries/utils/resources/assets.gen.dart';
@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class Photo extends StatelessWidget {
-  final UserResponseEntity data;
+  final UserDataEntity data;
   final double size;
   const Photo({
     super.key,

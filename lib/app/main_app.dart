@@ -1,12 +1,14 @@
 import 'package:chat_app/injections/injections.dart';
-import 'package:chat_app/presentation/account/bloc/sign_out_cubit/sign_out_cubit.dart';
-import 'package:chat_app/presentation/account/bloc/user_cubit/user_cubit.dart';
-import 'package:chat_app/presentation/account/ui/account_screen.dart';
+import 'package:chat_app/presentation/chat/bloc/all_users_cubit/all_users_cubit.dart';
+import 'package:chat_app/presentation/user/bloc/sign_out_cubit/sign_out_cubit.dart';
+import 'package:chat_app/presentation/user/bloc/user_cubit/user_cubit.dart';
+import 'package:chat_app/presentation/user/ui/account_screen.dart';
 import 'package:chat_app/presentation/auth/bloc/sign_in_with_email_and_password_bloc/sign_in_with_email_and_password_bloc.dart';
 import 'package:chat_app/presentation/auth/bloc/sign_up_with_email_and_password_bloc/sign_up_with_email_and_password_bloc.dart';
 import 'package:chat_app/presentation/auth/ui/sign_in_screen.dart';
 import 'package:chat_app/presentation/auth/ui/sign_up_screen.dart';
 import 'package:chat_app/presentation/chat/ui/chat_screen.dart';
+import 'package:chat_app/presentation/chat/ui/new_chat_screen.dart';
 import 'package:chat_app/presentation/splash/bloc/splash_cubit/splash_cubit.dart';
 import 'package:chat_app/presentation/splash/ui/splash_screen.dart';
 import 'package:chat_app/shared_libraries/utils/resources/fonts.gen.dart';
@@ -99,6 +101,16 @@ class MyApp extends StatelessWidget {
                       ),
                     ],
                     child: AccountScreen(),
+                  ),
+                  type: PageTransitionType.rightToLeft,
+                );
+              case AppRoutes.newChat:
+                return PageTransition(
+                  child: BlocProvider(
+                    create: (context) => AllUsersCubit(
+                      getAllUsersUseCase: sl(),
+                    )..getAllUsers(),
+                    child: const NewChatScreen(),
                   ),
                   type: PageTransitionType.rightToLeft,
                 );

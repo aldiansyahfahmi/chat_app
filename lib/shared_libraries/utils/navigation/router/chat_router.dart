@@ -3,6 +3,7 @@ import 'app_routes.dart';
 
 abstract class ChatRouter {
   void navigateToAccountScreen();
+  void navigateToNewChatScreen();
 }
 
 class ChatRouterImpl implements ChatRouter {
@@ -14,4 +15,8 @@ class ChatRouterImpl implements ChatRouter {
   void navigateToAccountScreen() {
     navigationHelper.pushNamed(AppRoutes.account);
   }
+
+  @override
+  void navigateToNewChatScreen() =>
+      navigationHelper.pushNamed(AppRoutes.newChat);
 }

@@ -1,5 +1,5 @@
-import 'package:chat_app/domains/account/di/account_dependency.dart';
 import 'package:chat_app/domains/auth/di/auth_dependency.dart';
+import 'package:chat_app/domains/user/di/dependency.dart';
 import 'package:get_it/get_it.dart';
 
 import '../shared_libraries/core/di/core_module.dart';
@@ -20,6 +20,6 @@ class Injections {
 
   void _registerDomains() {
     AuthDependency();
-    AccountDependency();
+    UserDependency();
   }
 }
