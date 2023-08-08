@@ -1,7 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:chat_app/injections/injections.dart';
-import 'package:chat_app/presentation/user/bloc/user_by_id_cubit/user_by_id_cubit.dart';
-import 'package:chat_app/presentation/user/bloc/user_by_id_cubit/user_by_id_state.dart';
+import 'package:chat_app/presentation/user/bloc/profile_cubit/profile_cubit.dart';
+import 'package:chat_app/presentation/user/bloc/profile_cubit/profile_state.dart';
 import 'package:chat_app/shared_libraries/utils/navigation/router/chat_router.dart';
 import 'package:chat_app/shared_libraries/utils/resources/colors.gen.dart';
 import 'package:chat_app/shared_libraries/utils/state/view_data_state.dart';
@@ -26,9 +26,9 @@ class ChatScreen extends StatelessWidget {
           color: ColorName.white,
         ),
       ),
-      body: BlocBuilder<UserByIdCubit, UserByIdState>(
+      body: BlocBuilder<ProfileCubit, ProfileState>(
         builder: (context, state) {
-          return state.userByIdState.observe(
+          return state.profileState.observe(
             (data) => SafeArea(
               child: SingleChildScrollView(
                 padding: const EdgeInsets.all(16),

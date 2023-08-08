@@ -1,5 +1,4 @@
 import 'package:chat_app/domains/user/domain/usecases/get_user_by_id_usecase.dart';
-import 'package:chat_app/shared_libraries/utils/usecase/usecase.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '/shared_libraries/utils/state/view_data_state.dart';
 import 'user_by_id_state.dart';
@@ -10,9 +9,11 @@ class UserByIdCubit extends Cubit<UserByIdState> {
   UserByIdCubit({required this.getUserByIdUseCase})
       : super(UserByIdState(userByIdState: ViewData.initial()));
 
-  void getUserById() async {
+  String userName = '';
+
+  void getUserById({required String userId}) async {
     emit(UserByIdState(userByIdState: ViewData.loading()));
-    final result = await getUserByIdUseCase.call(const NoParams());
+    final result = await getUserByIdUseCase.call(userId);
     result.fold(
       (failure) => emit(
         UserByIdState(
@@ -24,6 +25,7 @@ class UserByIdCubit extends Cubit<UserByIdState> {
       ),
       (result) => result.listen(
         (event) {
+          userName = event.username;
           emit(
             UserByIdState(
               userByIdState: ViewData.loaded(

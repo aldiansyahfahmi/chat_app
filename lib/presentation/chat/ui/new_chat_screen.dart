@@ -1,6 +1,8 @@
-import 'package:chat_app/presentation/chat/bloc/all_users_cubit/all_users_cubit.dart';
-import 'package:chat_app/presentation/chat/bloc/all_users_cubit/all_users_state.dart';
+import 'package:chat_app/injections/injections.dart';
+import 'package:chat_app/presentation/user/bloc/all_users_cubit/all_users_cubit.dart';
+import 'package:chat_app/presentation/user/bloc/all_users_cubit/all_users_state.dart';
 import 'package:chat_app/shared_libraries/component/app_bar/custom_app_bar.dart';
+import 'package:chat_app/shared_libraries/utils/navigation/router/chat_router.dart';
 import 'package:chat_app/shared_libraries/utils/resources/assets.gen.dart';
 import 'package:chat_app/shared_libraries/utils/state/view_data_state.dart';
 import 'package:flutter/material.dart';
@@ -8,7 +10,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class NewChatScreen extends StatelessWidget {
-  const NewChatScreen({super.key});
+  NewChatScreen({super.key});
+
+  final ChatRouter _chatRouter = sl();
 
   @override
   Widget build(BuildContext context) {
@@ -21,6 +25,9 @@ class NewChatScreen extends StatelessWidget {
               padding: const EdgeInsets.all(16),
               itemBuilder: (context, index) {
                 return ListTile(
+                  onTap: () => _chatRouter.navigateToChatRoomScreen(
+                    userDataDto: data[index],
+                  ),
                   dense: true,
                   contentPadding: EdgeInsets.zero,
                   leading: Assets.images.icons.account.emptyPhoto.svg(

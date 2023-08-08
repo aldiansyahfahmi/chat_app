@@ -4,6 +4,8 @@ import 'package:chat_app/shared_libraries/utils/error/failure_response.dart';
 import 'package:dartz/dartz.dart';
 
 abstract class UserRepository {
-  Future<Either<FailureResponse, Stream<UserDataEntity>>> getUserById();
+  Future<Either<FailureResponse, Stream<UserDataEntity>>> getProfile();
   Future<Either<FailureResponse, Stream<List<UserDataDto>>>> getAllUsers();
+  Future<Either<FailureResponse, Stream<UserDataEntity>>> getUserById(
+      {required String userId});
 }

@@ -4,12 +4,13 @@ import 'package:chat_app/shared_libraries/utils/error/failure_response.dart';
 import 'package:chat_app/shared_libraries/utils/usecase/usecase.dart';
 import 'package:dartz/dartz.dart';
 
-class GetUserByIdUseCase extends UseCase<Stream<UserDataEntity>, String> {
+class GetProfileUseCase extends UseCase<Stream<UserDataEntity>, NoParams> {
   final UserRepository userRepository;
 
-  GetUserByIdUseCase({required this.userRepository});
+  GetProfileUseCase({required this.userRepository});
 
   @override
-  Future<Either<FailureResponse, Stream<UserDataEntity>>> call(String params) =>
-      userRepository.getUserById(userId: params);
+  Future<Either<FailureResponse, Stream<UserDataEntity>>> call(
+          NoParams params) =>
+      userRepository.getProfile();
 }

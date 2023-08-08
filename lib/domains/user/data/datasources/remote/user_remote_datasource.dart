@@ -3,8 +3,9 @@ import 'package:chat_app/services/firestore_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 abstract class UserRemoteDataSource {
-  Future<Stream<UserDataDto>> getUserById();
+  Future<Stream<UserDataDto>> getProfile();
   Future<Stream<List<UserDataDto>>> getAllUser();
+  Future<Stream<UserDataDto>> getUserById({required String userId});
 }
 
 class UserRemoteDataSourceImpl implements UserRemoteDataSource {
@@ -12,7 +13,7 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
   final FirebaseAuth _user = FirebaseAuth.instance;
 
   @override
-  Future<Stream<UserDataDto>> getUserById() async {
+  Future<Stream<UserDataDto>> getProfile() async {
     try {
       final currentUser = _user.currentUser;
       final result =
@@ -38,6 +39,18 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
             (e) => UserDataDto.fromJson(e.data()),
           ),
         ),
+      );
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<Stream<UserDataDto>> getUserById({required String userId}) async {
+    try {
+      final result = _firestoreService.usersCollection.doc(userId).snapshots();
+      return result.map(
+        (event) => UserDataDto.fromJson(event.data()!),
       );
     } catch (e) {
       rethrow;

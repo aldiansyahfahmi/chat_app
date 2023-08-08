@@ -4,4 +4,5 @@ class AppRoutes {
   static const String chat = '/chat';
   static const String account = '/account';
   static const String newChat = '/new-chat';
+  static const String chatRoom = '/chat-room';
 }

@@ -1,5 +1,8 @@
+import 'package:chat_app/domains/user/data/models/response/user_data_dto.dart';
 import 'package:chat_app/injections/injections.dart';
-import 'package:chat_app/presentation/chat/bloc/all_users_cubit/all_users_cubit.dart';
+import 'package:chat_app/presentation/user/bloc/all_users_cubit/all_users_cubit.dart';
+import 'package:chat_app/presentation/chat/ui/chat_room_screen.dart';
+import 'package:chat_app/presentation/user/bloc/profile_cubit/profile_cubit.dart';
 import 'package:chat_app/presentation/user/bloc/sign_out_cubit/sign_out_cubit.dart';
 import 'package:chat_app/presentation/user/bloc/user_by_id_cubit/user_by_id_cubit.dart';
 import 'package:chat_app/presentation/user/ui/account_screen.dart';
@@ -52,6 +55,7 @@ class MyApp extends StatelessWidget {
           ),
           navigatorKey: NavigationHelperImpl.navigatorKey,
           onGenerateRoute: (settings) {
+            final arguments = settings.arguments;
             switch (settings.name) {
               case AppRoutes.signIn:
                 return PageTransition(
@@ -76,9 +80,9 @@ class MyApp extends StatelessWidget {
               case AppRoutes.chat:
                 return PageTransition(
                   child: BlocProvider(
-                    create: (context) => UserByIdCubit(
-                      getUserByIdUseCase: sl(),
-                    )..getUserById(),
+                    create: (context) => ProfileCubit(
+                      getProfileUseCase: sl(),
+                    )..getProfile(),
                     child: ChatScreen(),
                   ),
                   type: PageTransitionType.rightToLeft,
@@ -88,9 +92,9 @@ class MyApp extends StatelessWidget {
                   child: MultiBlocProvider(
                     providers: [
                       BlocProvider(
-                        create: (context) => UserByIdCubit(
-                          getUserByIdUseCase: sl(),
-                        )..getUserById(),
+                        create: (context) => ProfileCubit(
+                          getProfileUseCase: sl(),
+                        )..getProfile(),
                       ),
                       BlocProvider(
                         create: (context) => SignOutCubit(
@@ -108,7 +112,19 @@ class MyApp extends StatelessWidget {
                     create: (context) => AllUsersCubit(
                       getAllUsersUseCase: sl(),
                     )..getAllUsers(),
-                    child: const NewChatScreen(),
+                    child: NewChatScreen(),
+                  ),
+                  type: PageTransitionType.rightToLeft,
+                );
+              case AppRoutes.chatRoom:
+                return PageTransition(
+                  child: BlocProvider(
+                    create: (context) => UserByIdCubit(
+                      getUserByIdUseCase: sl(),
+                    ),
+                    child: ChatRoomScreen(
+                      userDataDto: arguments as UserDataDto,
+                    ),
                   ),
                   type: PageTransitionType.rightToLeft,
                 );

@@ -3,6 +3,7 @@ import 'package:chat_app/domains/user/data/mapper/user_mapper.dart';
 import 'package:chat_app/domains/user/data/repositories/user_repository_impl.dart';
 import 'package:chat_app/domains/user/domain/repositories/user_repository.dart';
 import 'package:chat_app/domains/user/domain/usecases/get_all_users_usecase.dart';
+import 'package:chat_app/domains/user/domain/usecases/get_profile_usecase.dart';
 import 'package:chat_app/domains/user/domain/usecases/get_user_by_id_usecase.dart';
 import 'package:chat_app/injections/injections.dart';
 
@@ -36,13 +37,18 @@ class UserDependency {
   }
 
   void _registerUseCases() {
-    sl.registerLazySingleton<GetUserByIdUseCase>(
-      () => GetUserByIdUseCase(
+    sl.registerLazySingleton<GetProfileUseCase>(
+      () => GetProfileUseCase(
         userRepository: sl(),
       ),
     );
     sl.registerLazySingleton<GetAllUsersUseCase>(
       () => GetAllUsersUseCase(
+        userRepository: sl(),
+      ),
+    );
+    sl.registerLazySingleton<GetUserByIdUseCase>(
+      () => GetUserByIdUseCase(
         userRepository: sl(),
       ),
     );

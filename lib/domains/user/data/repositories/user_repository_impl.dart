@@ -17,16 +17,16 @@ class UserRepositoryImpl implements UserRepository {
   });
 
   @override
-  Future<Either<FailureResponse, Stream<UserDataEntity>>> getUserById() async {
+  Future<Either<FailureResponse, Stream<UserDataEntity>>> getProfile() async {
     try {
-      final result = await userRemoteDataSource.getUserById();
+      final result = await userRemoteDataSource.getProfile();
       return Right(
         userMapper.mapUserDataDtoToUserDataEntity(result),
       );
-    } on FirebaseException {
-      return const Left(
+    } on FirebaseException catch (error) {
+      return Left(
         FailureResponse(
-          errorMessage: 'errorMessage',
+          errorMessage: error.message!,
           statusCode: 500,
         ),
       );
@@ -39,10 +39,28 @@ class UserRepositoryImpl implements UserRepository {
     try {
       final result = await userRemoteDataSource.getAllUser();
       return Right(result);
-    } on FirebaseException {
-      return const Left(
+    } on FirebaseException catch (error) {
+      return Left(
         FailureResponse(
-          errorMessage: 'errorMessage',
+          errorMessage: error.message!,
+          statusCode: 500,
+        ),
+      );
+    }
+  }
+
+  @override
+  Future<Either<FailureResponse, Stream<UserDataEntity>>> getUserById(
+      {required String userId}) async {
+    try {
+      final result = await userRemoteDataSource.getUserById(userId: userId);
+      return Right(
+        userMapper.mapUserDataDtoToUserDataEntity(result),
+      );
+    } on FirebaseException catch (error) {
+      return Left(
+        FailureResponse(
+          errorMessage: error.message!,
           statusCode: 500,
         ),
       );
