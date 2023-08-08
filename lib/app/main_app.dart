@@ -1,5 +1,6 @@
 import 'package:chat_app/injections/injections.dart';
 import 'package:chat_app/presentation/account/bloc/user_cubit/user_cubit.dart';
+import 'package:chat_app/presentation/account/ui/account_screen.dart';
 import 'package:chat_app/presentation/auth/bloc/sign_in_with_email_and_password_bloc/sign_in_with_email_and_password_bloc.dart';
 import 'package:chat_app/presentation/auth/bloc/sign_up_with_email_and_password_bloc/sign_up_with_email_and_password_bloc.dart';
 import 'package:chat_app/presentation/auth/ui/sign_in_screen.dart';
@@ -74,8 +75,13 @@ class MyApp extends StatelessWidget {
                       getUserUseCase: sl(),
                       getUserByIdUseCase: sl(),
                     )..getUser(),
-                    child: const ChatScreen(),
+                    child: ChatScreen(),
                   ),
+                  type: PageTransitionType.rightToLeft,
+                );
+              case AppRoutes.account:
+                return PageTransition(
+                  child: const AccountScreen(),
                   type: PageTransitionType.rightToLeft,
                 );
               default:
