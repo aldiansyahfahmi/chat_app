@@ -9,6 +9,12 @@ abstract class UseCase<T, Params> {
   Future<Either<FailureResponse, T>> call(Params params);
 }
 
+abstract class UseCaseStream<T, Params> {
+  const UseCaseStream();
+
+  Either<FailureResponse, Stream<T>> call(Params params);
+}
+
 class NoParams extends Equatable {
   const NoParams();
 

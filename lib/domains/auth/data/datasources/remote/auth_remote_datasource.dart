@@ -1,6 +1,6 @@
 import 'package:chat_app/domains/auth/data/models/body/sign_in_with_email_and_password_request_dto.dart';
 import 'package:chat_app/domains/auth/data/models/body/sign_up_with_email_and_password_request_dto.dart';
-import 'package:chat_app/shared_libraries/utils/helpers/firestore_collection.dart';
+import 'package:chat_app/services/firestore_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 abstract class AuthRemoteDataSource {
@@ -13,7 +13,7 @@ abstract class AuthRemoteDataSource {
 }
 
 class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
-  final FirestoreCollection firestoreCollection = FirestoreCollection();
+  final FirestoreService firestoreService = FirestoreService();
   final _auth = FirebaseAuth.instance;
 
   @override
@@ -35,7 +35,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
         password: requestDto.password,
       );
       if (credential.user != null) {
-        await firestoreCollection.usersCollection
+        await firestoreService.usersCollection
             .doc(requestDto.email)
             .set(requestDto.toJson());
       }

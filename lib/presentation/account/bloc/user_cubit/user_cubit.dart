@@ -1,3 +1,4 @@
+import 'package:chat_app/domains/account/domain/usecases/get_user_by_id_usecase.dart';
 import 'package:chat_app/domains/account/domain/usecases/get_user_usecase.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '/shared_libraries/utils/state/view_data_state.dart';
@@ -6,9 +7,12 @@ import 'user_state.dart';
 
 class UserCubit extends Cubit<UserState> {
   final GetUserUseCase getUserUseCase;
+  final GetUserByIdUseCase getUserByIdUseCase;
 
-  UserCubit({required this.getUserUseCase})
-      : super(UserState(userState: ViewData.initial()));
+  UserCubit({
+    required this.getUserUseCase,
+    required this.getUserByIdUseCase,
+  }) : super(UserState(userState: ViewData.initial()));
 
   void getUser() async {
     emit(UserState(userState: ViewData.loading()));
@@ -22,13 +26,34 @@ class UserCubit extends Cubit<UserState> {
           ),
         ),
       ),
-      (result) => emit(
-        UserState(
-          userState: ViewData.loaded(
-            data: result,
-          ),
-        ),
-      ),
+      (result) async {
+        final userById = await getUserByIdUseCase.call(result.email!);
+        userById.fold(
+          (failure) {
+            emit(
+              UserState(
+                userState: ViewData.error(
+                  message: failure.errorMessage,
+                  failure: failure,
+                ),
+              ),
+            );
+          },
+          (resultUserById) {
+            resultUserById.listen(
+              (data) {
+                emit(
+                  UserState(
+                    userState: ViewData.loaded(
+                      data: data,
+                    ),
+                  ),
+                );
+              },
+            );
+          },
+        );
+      },
     );
   }
 }

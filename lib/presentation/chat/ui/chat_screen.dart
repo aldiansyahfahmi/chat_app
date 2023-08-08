@@ -14,7 +14,7 @@ class ChatScreen extends StatelessWidget {
         builder: (context, state) {
           return state.userState.observe(
             (data) => Center(
-              child: Text(data!.email!),
+              child: Text(data!.username),
             ),
           );
         },

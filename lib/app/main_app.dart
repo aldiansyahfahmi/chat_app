@@ -72,6 +72,7 @@ class MyApp extends StatelessWidget {
                   child: BlocProvider(
                     create: (context) => UserCubit(
                       getUserUseCase: sl(),
+                      getUserByIdUseCase: sl(),
                     )..getUser(),
                     child: const ChatScreen(),
                   ),
