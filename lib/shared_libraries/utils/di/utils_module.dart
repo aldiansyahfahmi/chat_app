@@ -1,3 +1,4 @@
+import 'package:chat_app/shared_libraries/utils/navigation/router/account_router.dart';
 import 'package:chat_app/shared_libraries/utils/navigation/router/auth_router.dart';
 import 'package:chat_app/shared_libraries/utils/navigation/router/chat_router.dart';
 import 'package:chat_app/shared_libraries/utils/navigation/router/splash_router.dart';
@@ -28,6 +29,11 @@ class RegisterUtilsModule {
     );
     sl.registerLazySingleton<ChatRouter>(
       () => ChatRouterImpl(
+        navigationHelper: sl(),
+      ),
+    );
+    sl.registerLazySingleton<AccountRouter>(
+      () => AccountRouterImpl(
         navigationHelper: sl(),
       ),
     );

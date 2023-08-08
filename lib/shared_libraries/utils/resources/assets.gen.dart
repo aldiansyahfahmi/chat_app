@@ -20,8 +20,21 @@ class $AssetsImagesGen {
 class $AssetsImagesIconsGen {
   const $AssetsImagesIconsGen();
 
+  $AssetsImagesIconsAccountGen get account =>
+      const $AssetsImagesIconsAccountGen();
   $AssetsImagesIconsAuthGen get auth => const $AssetsImagesIconsAuthGen();
   $AssetsImagesIconsDialogGen get dialog => const $AssetsImagesIconsDialogGen();
+}
+
+class $AssetsImagesIconsAccountGen {
+  const $AssetsImagesIconsAccountGen();
+
+  /// File path: assets/images/icons/account/empty_photo.svg
+  SvgGenImage get emptyPhoto =>
+      const SvgGenImage('assets/images/icons/account/empty_photo.svg');
+
+  /// List of all assets
+  List<SvgGenImage> get values => [emptyPhoto];
 }
 
 class $AssetsImagesIconsAuthGen {

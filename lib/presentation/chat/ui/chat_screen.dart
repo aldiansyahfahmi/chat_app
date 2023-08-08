@@ -50,7 +50,7 @@ class ChatScreen extends StatelessWidget {
                       title: Text(
                         data.username,
                         style: TextStyle(
-                          fontWeight: FontWeight.w500,
+                          fontWeight: FontWeight.bold,
                           fontSize: 16.sp,
                         ),
                       ),
@@ -68,7 +68,7 @@ class ChatScreen extends StatelessWidget {
                     Text(
                       'Chat',
                       style: TextStyle(
-                        fontWeight: FontWeight.w500,
+                        fontWeight: FontWeight.bold,
                         fontSize: 16.sp,
                       ),
                     ),

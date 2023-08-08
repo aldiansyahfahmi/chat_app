@@ -1,4 +1,5 @@
 import 'package:chat_app/injections/injections.dart';
+import 'package:chat_app/presentation/account/bloc/sign_out_cubit/sign_out_cubit.dart';
 import 'package:chat_app/presentation/account/bloc/user_cubit/user_cubit.dart';
 import 'package:chat_app/presentation/account/ui/account_screen.dart';
 import 'package:chat_app/presentation/auth/bloc/sign_in_with_email_and_password_bloc/sign_in_with_email_and_password_bloc.dart';
@@ -8,6 +9,7 @@ import 'package:chat_app/presentation/auth/ui/sign_up_screen.dart';
 import 'package:chat_app/presentation/chat/ui/chat_screen.dart';
 import 'package:chat_app/presentation/splash/bloc/splash_cubit/splash_cubit.dart';
 import 'package:chat_app/presentation/splash/ui/splash_screen.dart';
+import 'package:chat_app/shared_libraries/utils/resources/fonts.gen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -31,6 +33,7 @@ class MyApp extends StatelessWidget {
           title: 'Chat App',
           debugShowCheckedModeBanner: Config.isDebug,
           theme: ThemeData(
+            fontFamily: FontFamily.nunito,
             scaffoldBackgroundColor: ColorName.white,
           ),
           builder: (context, child) {
@@ -81,7 +84,22 @@ class MyApp extends StatelessWidget {
                 );
               case AppRoutes.account:
                 return PageTransition(
-                  child: const AccountScreen(),
+                  child: MultiBlocProvider(
+                    providers: [
+                      BlocProvider(
+                        create: (context) => UserCubit(
+                          getUserByIdUseCase: sl(),
+                          getUserUseCase: sl(),
+                        )..getUser(),
+                      ),
+                      BlocProvider(
+                        create: (context) => SignOutCubit(
+                          getSignOutUseCase: sl(),
+                        ),
+                      ),
+                    ],
+                    child: AccountScreen(),
+                  ),
                   type: PageTransitionType.rightToLeft,
                 );
               default:

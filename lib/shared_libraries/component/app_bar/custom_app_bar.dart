@@ -23,7 +23,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
         style: TextStyle(
           color: ColorName.black,
           fontSize: 16.sp,
-          fontWeight: FontWeight.w600,
+          fontWeight: FontWeight.bold,
         ),
       ),
       iconTheme: const IconThemeData(color: ColorName.black, size: 24),
