@@ -1,8 +1,8 @@
 import 'package:chat_app/injections/injections.dart';
 import 'package:chat_app/presentation/user/bloc/sign_out_cubit/sign_out_cubit.dart';
 import 'package:chat_app/presentation/user/bloc/sign_out_cubit/sign_out_state.dart';
-import 'package:chat_app/presentation/user/bloc/user_cubit/user_cubit.dart';
-import 'package:chat_app/presentation/user/bloc/user_cubit/user_state.dart';
+import 'package:chat_app/presentation/user/bloc/user_by_id_cubit/user_by_id_cubit.dart';
+import 'package:chat_app/presentation/user/bloc/user_by_id_cubit/user_by_id_state.dart';
 import 'package:chat_app/shared_libraries/component/account/photo.dart';
 import 'package:chat_app/shared_libraries/component/app_bar/custom_app_bar.dart';
 import 'package:chat_app/shared_libraries/component/button/custom_button.dart';
@@ -67,9 +67,9 @@ class AccountScreen extends StatelessWidget {
             );
           }
         },
-        child: BlocBuilder<UserCubit, UserState>(
+        child: BlocBuilder<UserByIdCubit, UserByIdState>(
           builder: (context, state) {
-            return state.userState.observe(
+            return state.userByIdState.observe(
               (data) => SingleChildScrollView(
                 padding: const EdgeInsets.all(16),
                 child: Column(

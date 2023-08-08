@@ -4,7 +4,6 @@ import 'package:chat_app/domains/user/data/repositories/user_repository_impl.dar
 import 'package:chat_app/domains/user/domain/repositories/user_repository.dart';
 import 'package:chat_app/domains/user/domain/usecases/get_all_users_usecase.dart';
 import 'package:chat_app/domains/user/domain/usecases/get_user_by_id_usecase.dart';
-import 'package:chat_app/domains/user/domain/usecases/get_user_usecase.dart';
 import 'package:chat_app/injections/injections.dart';
 
 class UserDependency {
@@ -37,11 +36,6 @@ class UserDependency {
   }
 
   void _registerUseCases() {
-    sl.registerLazySingleton<GetUserUseCase>(
-      () => GetUserUseCase(
-        userRepository: sl(),
-      ),
-    );
     sl.registerLazySingleton<GetUserByIdUseCase>(
       () => GetUserByIdUseCase(
         userRepository: sl(),

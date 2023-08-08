@@ -3,7 +3,6 @@ import 'package:chat_app/services/firestore_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 abstract class UserRemoteDataSource {
-  Future<User> getUser();
   Future<Stream<UserDataDto>> getUserById();
   Future<Stream<List<UserDataDto>>> getAllUser();
 }
@@ -11,16 +10,6 @@ abstract class UserRemoteDataSource {
 class UserRemoteDataSourceImpl implements UserRemoteDataSource {
   final FirestoreService _firestoreService = FirestoreService();
   final FirebaseAuth _user = FirebaseAuth.instance;
-
-  @override
-  Future<User> getUser() async {
-    try {
-      final result = _user.currentUser!;
-      return result;
-    } catch (e) {
-      rethrow;
-    }
-  }
 
   @override
   Future<Stream<UserDataDto>> getUserById() async {

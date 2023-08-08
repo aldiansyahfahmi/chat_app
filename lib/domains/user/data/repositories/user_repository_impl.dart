@@ -17,21 +17,6 @@ class UserRepositoryImpl implements UserRepository {
   });
 
   @override
-  Future<Either<FailureResponse, User>> getUser() async {
-    try {
-      final result = await userRemoteDataSource.getUser();
-      return Right(result);
-    } on FirebaseAuthException catch (error) {
-      return Left(
-        FailureResponse(
-          errorMessage: error.message!,
-          statusCode: 500,
-        ),
-      );
-    }
-  }
-
-  @override
   Future<Either<FailureResponse, Stream<UserDataEntity>>> getUserById() async {
     try {
       final result = await userRemoteDataSource.getUserById();

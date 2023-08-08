@@ -1,7 +1,7 @@
 import 'package:chat_app/injections/injections.dart';
 import 'package:chat_app/presentation/chat/bloc/all_users_cubit/all_users_cubit.dart';
 import 'package:chat_app/presentation/user/bloc/sign_out_cubit/sign_out_cubit.dart';
-import 'package:chat_app/presentation/user/bloc/user_cubit/user_cubit.dart';
+import 'package:chat_app/presentation/user/bloc/user_by_id_cubit/user_by_id_cubit.dart';
 import 'package:chat_app/presentation/user/ui/account_screen.dart';
 import 'package:chat_app/presentation/auth/bloc/sign_in_with_email_and_password_bloc/sign_in_with_email_and_password_bloc.dart';
 import 'package:chat_app/presentation/auth/bloc/sign_up_with_email_and_password_bloc/sign_up_with_email_and_password_bloc.dart';
@@ -76,10 +76,9 @@ class MyApp extends StatelessWidget {
               case AppRoutes.chat:
                 return PageTransition(
                   child: BlocProvider(
-                    create: (context) => UserCubit(
-                      getUserUseCase: sl(),
+                    create: (context) => UserByIdCubit(
                       getUserByIdUseCase: sl(),
-                    )..getUser(),
+                    )..getUserById(),
                     child: ChatScreen(),
                   ),
                   type: PageTransitionType.rightToLeft,
@@ -89,10 +88,9 @@ class MyApp extends StatelessWidget {
                   child: MultiBlocProvider(
                     providers: [
                       BlocProvider(
-                        create: (context) => UserCubit(
+                        create: (context) => UserByIdCubit(
                           getUserByIdUseCase: sl(),
-                          getUserUseCase: sl(),
-                        )..getUser(),
+                        )..getUserById(),
                       ),
                       BlocProvider(
                         create: (context) => SignOutCubit(
