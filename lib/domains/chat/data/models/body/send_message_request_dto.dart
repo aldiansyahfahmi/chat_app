@@ -1,4 +1,5 @@
 class SendMessageRequestDto {
+  final String toEmail;
   final String userId;
   final String message;
   final String sender;
@@ -6,6 +7,7 @@ class SendMessageRequestDto {
   final bool isRead;
 
   SendMessageRequestDto({
+    required this.toEmail,
     required this.userId,
     required this.message,
     required this.sender,
@@ -14,6 +16,7 @@ class SendMessageRequestDto {
   });
 
   Map<String, dynamic> toJson() => {
+        'to_email': toEmail,
         'message': message,
         'sender': sender,
         'timestamp': timestamp,

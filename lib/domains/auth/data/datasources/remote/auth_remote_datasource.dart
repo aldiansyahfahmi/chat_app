@@ -37,7 +37,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       if (credential.user != null) {
         await firestoreService.usersCollection
             .doc(requestDto.email)
-            .set(requestDto.toJson());
+            .set(requestDto.toJson(uid: credential.user!.uid));
       }
     } catch (e) {
       rethrow;

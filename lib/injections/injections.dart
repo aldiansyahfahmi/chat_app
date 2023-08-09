@@ -1,4 +1,5 @@
 import 'package:chat_app/domains/auth/di/auth_dependency.dart';
+import 'package:chat_app/domains/chat/di/dependency.dart';
 import 'package:chat_app/domains/user/di/dependency.dart';
 import 'package:get_it/get_it.dart';
 
@@ -21,5 +22,6 @@ class Injections {
   void _registerDomains() {
     AuthDependency();
     UserDependency();
+    ChatDependency();
   }
 }

@@ -11,9 +11,11 @@ class SignUpWithEmailAndPasswordRequestDto {
     required this.password,
   });
 
-  Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson({required String uid}) => {
         'username': username,
-        if (photo.isNotEmpty) 'photo': photo,
         'email': email,
+        'uid': uid,
+        if (photo.isNotEmpty) 'photo': photo,
+        'chat': [],
       };
 }

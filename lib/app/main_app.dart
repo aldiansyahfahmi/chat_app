@@ -1,5 +1,6 @@
 import 'package:chat_app/domains/user/data/models/response/user_data_dto.dart';
 import 'package:chat_app/injections/injections.dart';
+import 'package:chat_app/presentation/chat/bloc/send_message_bloc/send_message_bloc.dart';
 import 'package:chat_app/presentation/user/bloc/all_users_cubit/all_users_cubit.dart';
 import 'package:chat_app/presentation/chat/ui/chat_room_screen.dart';
 import 'package:chat_app/presentation/user/bloc/profile_cubit/profile_cubit.dart';
@@ -118,10 +119,19 @@ class MyApp extends StatelessWidget {
                 );
               case AppRoutes.chatRoom:
                 return PageTransition(
-                  child: BlocProvider(
-                    create: (context) => UserByIdCubit(
-                      getUserByIdUseCase: sl(),
-                    ),
+                  child: MultiBlocProvider(
+                    providers: [
+                      BlocProvider(
+                        create: (context) => UserByIdCubit(
+                          getUserByIdUseCase: sl(),
+                        ),
+                      ),
+                      BlocProvider(
+                        create: (context) => SendMessageBloc(
+                          sendMessageUseCase: sl(),
+                        ),
+                      ),
+                    ],
                     child: ChatRoomScreen(
                       userDataDto: arguments as UserDataDto,
                     ),

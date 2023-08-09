@@ -1,9 +1,13 @@
+import 'package:chat_app/domains/chat/domain/entities/body/create_chat_room_request_entity.dart';
 import 'package:chat_app/domains/user/data/models/response/user_data_dto.dart';
+import 'package:chat_app/presentation/chat/bloc/send_message_bloc/send_message_bloc.dart';
+import 'package:chat_app/presentation/chat/bloc/send_message_bloc/send_message_event.dart';
 import 'package:chat_app/presentation/user/bloc/user_by_id_cubit/user_by_id_cubit.dart';
 import 'package:chat_app/presentation/user/bloc/user_by_id_cubit/user_by_id_state.dart';
 import 'package:chat_app/shared_libraries/utils/resources/assets.gen.dart';
 import 'package:chat_app/shared_libraries/utils/resources/colors.gen.dart';
 import 'package:chat_app/shared_libraries/utils/state/view_data_state.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -99,7 +103,22 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
                           width: 16,
                         ),
                         GestureDetector(
-                          onTap: () {},
+                          onTap: () {
+                            final FirebaseAuth auth = FirebaseAuth.instance;
+                            context.read<SendMessageBloc>().add(
+                                  SendMessage(
+                                    sendMessageRequestEntity:
+                                        CreateChatRoomRequestEntity(
+                                      participants: [
+                                        auth.currentUser!.email!,
+                                        widget.userDataDto.email!,
+                                      ],
+                                      toEmail: widget.userDataDto.email!,
+                                      lastMessage: 'Hi',
+                                    ),
+                                  ),
+                                );
+                          },
                           child: const Icon(
                             Icons.send,
                             color: ColorName.main,
