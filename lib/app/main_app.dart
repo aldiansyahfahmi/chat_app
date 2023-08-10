@@ -1,5 +1,7 @@
 import 'package:chat_app/domains/user/data/models/response/user_data_dto.dart';
 import 'package:chat_app/injections/injections.dart';
+import 'package:chat_app/presentation/auth/bloc/photo_picker_cubit/photo_picker_cubit.dart';
+import 'package:chat_app/presentation/auth/bloc/upload_photo_bloc/upload_photo_bloc.dart';
 import 'package:chat_app/presentation/chat/bloc/send_message_bloc/send_message_bloc.dart';
 import 'package:chat_app/presentation/user/bloc/all_users_cubit/all_users_cubit.dart';
 import 'package:chat_app/presentation/chat/ui/chat_room_screen.dart';
@@ -70,10 +72,23 @@ class MyApp extends StatelessWidget {
                 );
               case AppRoutes.signUp:
                 return PageTransition(
-                  child: BlocProvider(
-                    create: (context) => SignUpWithEmailAndPasswordBloc(
-                      signUpWithEmailAndPasswordUseCase: sl(),
-                    ),
+                  child: MultiBlocProvider(
+                    providers: [
+                      BlocProvider(
+                        create: (context) => SignUpWithEmailAndPasswordBloc(
+                          signUpWithEmailAndPasswordUseCase: sl(),
+                          uploadPhotoUseCase: sl(),
+                        ),
+                      ),
+                      BlocProvider(
+                        create: (context) => PhotoPickerCubit(),
+                      ),
+                      BlocProvider(
+                        create: (context) => UploadPhotoBloc(
+                          uploadPhotoUseCase: sl(),
+                        ),
+                      ),
+                    ],
                     child: SignUpScreen(),
                   ),
                   type: PageTransitionType.rightToLeft,
@@ -133,7 +148,7 @@ class MyApp extends StatelessWidget {
                       ),
                     ],
                     child: ChatRoomScreen(
-                      userDataDto: arguments as UserDataDto,
+                      user: arguments as UserDataDto,
                     ),
                   ),
                   type: PageTransitionType.rightToLeft,

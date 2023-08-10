@@ -1,13 +1,13 @@
 class SignUpWithEmailAndPasswordRequestDto {
   final String email;
   final String username;
-  final String photo;
+  final String photoUrl;
   final String password;
 
   SignUpWithEmailAndPasswordRequestDto({
     required this.email,
     required this.username,
-    required this.photo,
+    required this.photoUrl,
     required this.password,
   });
 
@@ -15,7 +15,6 @@ class SignUpWithEmailAndPasswordRequestDto {
         'username': username,
         'email': email,
         'uid': uid,
-        if (photo.isNotEmpty) 'photo': photo,
-        'chat': [],
+        if (photoUrl.isNotEmpty) 'photo': photoUrl,
       };
 }

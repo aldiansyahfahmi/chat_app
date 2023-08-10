@@ -6,6 +6,7 @@ import 'package:chat_app/domains/auth/domain/usecases/is_user_logged_usecase.dar
 import 'package:chat_app/domains/auth/domain/usecases/sign_in_with_email_and_password_usecase.dart';
 import 'package:chat_app/domains/auth/domain/usecases/sign_out_usecase.dart';
 import 'package:chat_app/domains/auth/domain/usecases/sign_up_with_email_and_password_usecase.dart';
+import 'package:chat_app/domains/auth/domain/usecases/upload_photo_usecase.dart';
 import 'package:chat_app/injections/injections.dart';
 
 class AuthDependency {
@@ -53,6 +54,11 @@ class AuthDependency {
     );
     sl.registerLazySingleton<SignOutUseCase>(
       () => SignOutUseCase(
+        authRepository: sl(),
+      ),
+    );
+    sl.registerLazySingleton<UploadPhotoUseCase>(
+      () => UploadPhotoUseCase(
         authRepository: sl(),
       ),
     );

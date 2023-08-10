@@ -3,6 +3,7 @@ import 'package:chat_app/injections/injections.dart';
 import 'package:chat_app/presentation/user/bloc/profile_cubit/profile_cubit.dart';
 import 'package:chat_app/presentation/user/bloc/profile_cubit/profile_state.dart';
 import 'package:chat_app/shared_libraries/utils/navigation/router/chat_router.dart';
+import 'package:chat_app/shared_libraries/utils/resources/assets.gen.dart';
 import 'package:chat_app/shared_libraries/utils/resources/colors.gen.dart';
 import 'package:chat_app/shared_libraries/utils/state/view_data_state.dart';
 import 'package:flutter/material.dart';
@@ -39,22 +40,20 @@ class ChatScreen extends StatelessWidget {
                       contentPadding: EdgeInsets.zero,
                       leading: GestureDetector(
                         onTap: () => _chatRouter.navigateToAccountScreen(),
-                        child: Container(
-                          width: 50,
-                          height: 50,
-                          decoration: const BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: ColorName.main,
-                          ),
-                          child: data!.photo.isEmpty
-                              ? const Icon(
-                                  Icons.person,
-                                  color: ColorName.white,
-                                )
-                              : CachedNetworkImage(
+                        child: data!.photo.isEmpty
+                            ? Assets.images.icons.account.emptyPhoto.svg(
+                                width: 50,
+                                height: 50,
+                              )
+                            : ClipRRect(
+                                borderRadius: BorderRadius.circular(100),
+                                child: CachedNetworkImage(
+                                  width: 50,
+                                  height: 50,
                                   imageUrl: data.photo,
+                                  fit: BoxFit.cover,
                                 ),
-                        ),
+                              ),
                       ),
                       title: Text(
                         data.username,

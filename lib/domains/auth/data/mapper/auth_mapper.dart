@@ -10,7 +10,7 @@ class AuthMapper {
           SignUpWithEmailAndPasswordRequestDto(
             email: requestEntity.email,
             username: requestEntity.username,
-            photo: requestEntity.photo,
+            photoUrl: requestEntity.photoUrl,
             password: requestEntity.password,
           );
 

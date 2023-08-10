@@ -7,6 +7,8 @@ import 'package:chat_app/shared_libraries/utils/error/failure_response.dart';
 import 'package:chat_app/shared_libraries/utils/usecase/usecase.dart';
 import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:image_picker/image_picker.dart';
 
 class AuthRepositoryImpl implements AuthRepository {
   final AuthRemoteDataSource authRemoteDataSource;
@@ -80,6 +82,22 @@ class AuthRepositoryImpl implements AuthRepository {
       await authRemoteDataSource.signOut();
       return const Right(NoParams());
     } on FirebaseAuthException catch (error) {
+      return Left(
+        FailureResponse(
+          errorMessage: error.message!,
+          statusCode: 500,
+        ),
+      );
+    }
+  }
+
+  @override
+  Future<Either<FailureResponse, TaskSnapshot>> uploadPhoto(
+      {required XFile photo}) async {
+    try {
+      final result = await authRemoteDataSource.updatePhoto(photo: photo);
+      return Right(result);
+    } on FirebaseException catch (error) {
       return Left(
         FailureResponse(
           errorMessage: error.message!,

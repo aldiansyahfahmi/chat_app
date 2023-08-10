@@ -4,7 +4,7 @@ import 'package:chat_app/presentation/chat/bloc/send_message_bloc/send_message_b
 import 'package:chat_app/presentation/chat/bloc/send_message_bloc/send_message_event.dart';
 import 'package:chat_app/presentation/user/bloc/user_by_id_cubit/user_by_id_cubit.dart';
 import 'package:chat_app/presentation/user/bloc/user_by_id_cubit/user_by_id_state.dart';
-import 'package:chat_app/shared_libraries/utils/resources/assets.gen.dart';
+import 'package:chat_app/shared_libraries/component/item/user_item.dart';
 import 'package:chat_app/shared_libraries/utils/resources/colors.gen.dart';
 import 'package:chat_app/shared_libraries/utils/state/view_data_state.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -13,8 +13,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ChatRoomScreen extends StatefulWidget {
-  final UserDataDto userDataDto;
-  const ChatRoomScreen({super.key, required this.userDataDto});
+  final UserDataDto user;
+  const ChatRoomScreen({super.key, required this.user});
 
   @override
   State<ChatRoomScreen> createState() => _ChatRoomScreenState();
@@ -25,7 +25,7 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
 
   void _getUserById() {
     context.read<UserByIdCubit>().getUserById(
-          userId: widget.userDataDto.email!,
+          userId: widget.user.email!,
         );
   }
 
@@ -47,23 +47,14 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
                   Row(
                     children: [
                       const BackButton(),
-                      const SizedBox(
-                        width: 8,
-                      ),
                       Expanded(
-                        child: ListTile(
-                          contentPadding: EdgeInsets.zero,
-                          leading: Assets.images.icons.account.emptyPhoto.svg(
-                            height: 35.h,
-                            width: 35.h,
-                          ),
-                          title: Text(
-                            data!.username,
-                            style: TextStyle(
-                              fontWeight: FontWeight.w500,
-                              fontSize: 16.sp,
-                            ),
-                          ),
+                        child: UserItem(
+                          user: widget.user,
+                          contentPadding:
+                              const EdgeInsets.symmetric(vertical: 8),
+                          subTitle: false,
+                          photoSize: 40,
+                          horizontalTitleGap: 8,
                         ),
                       ),
                     ],
@@ -111,9 +102,9 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
                                         CreateChatRoomRequestEntity(
                                       participants: [
                                         auth.currentUser!.email!,
-                                        widget.userDataDto.email!,
+                                        widget.user.email!,
                                       ],
-                                      toEmail: widget.userDataDto.email!,
+                                      toEmail: widget.user.email!,
                                       lastMessage: 'Hi',
                                     ),
                                   ),

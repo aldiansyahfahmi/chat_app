@@ -4,9 +4,13 @@ import 'package:chat_app/shared_libraries/utils/error/failure_response.dart';
 import 'package:chat_app/shared_libraries/utils/usecase/usecase.dart';
 import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:image_picker/image_picker.dart';
 
 abstract class AuthRepository {
   Future<Either<FailureResponse, bool>> isUserLogged();
+  Future<Either<FailureResponse, TaskSnapshot>> uploadPhoto(
+      {required XFile photo});
   Future<Either<FailureResponse, NoParams>> signUpWithEmailAndPassword(
       {required SignUpWithEmailAndPasswordRequestEntity requestEntity});
   Future<Either<FailureResponse, UserCredential>> signInWithEmailAndPassword(

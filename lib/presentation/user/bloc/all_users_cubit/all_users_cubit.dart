@@ -22,16 +22,12 @@ class AllUsersCubit extends Cubit<AllUsersState> {
           ),
         ),
       ),
-      (result) => result.listen(
-        (event) {
-          emit(
-            AllUsersState(
-              allUsersState: ViewData.loaded(
-                data: event,
-              ),
-            ),
-          );
-        },
+      (result) => emit(
+        AllUsersState(
+          allUsersState: ViewData.loaded(
+            data: result,
+          ),
+        ),
       ),
     );
   }
