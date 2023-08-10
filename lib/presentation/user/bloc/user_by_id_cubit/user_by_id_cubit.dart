@@ -9,8 +9,6 @@ class UserByIdCubit extends Cubit<UserByIdState> {
   UserByIdCubit({required this.getUserByIdUseCase})
       : super(UserByIdState(userByIdState: ViewData.initial()));
 
-  String userName = '';
-
   void getUserById({required String userId}) async {
     emit(UserByIdState(userByIdState: ViewData.loading()));
     final result = await getUserByIdUseCase.call(userId);
@@ -23,17 +21,12 @@ class UserByIdCubit extends Cubit<UserByIdState> {
           ),
         ),
       ),
-      (result) => result.listen(
-        (event) {
-          userName = event.username;
-          emit(
-            UserByIdState(
-              userByIdState: ViewData.loaded(
-                data: event,
-              ),
-            ),
-          );
-        },
+      (result) => emit(
+        UserByIdState(
+          userByIdState: ViewData.loaded(
+            data: result,
+          ),
+        ),
       ),
     );
   }

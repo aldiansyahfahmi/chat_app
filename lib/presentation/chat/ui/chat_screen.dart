@@ -1,9 +1,8 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:chat_app/injections/injections.dart';
 import 'package:chat_app/presentation/user/bloc/profile_cubit/profile_cubit.dart';
 import 'package:chat_app/presentation/user/bloc/profile_cubit/profile_state.dart';
+import 'package:chat_app/shared_libraries/component/item/user_item.dart';
 import 'package:chat_app/shared_libraries/utils/navigation/router/chat_router.dart';
-import 'package:chat_app/shared_libraries/utils/resources/assets.gen.dart';
 import 'package:chat_app/shared_libraries/utils/resources/colors.gen.dart';
 import 'package:chat_app/shared_libraries/utils/state/view_data_state.dart';
 import 'package:flutter/material.dart';
@@ -30,59 +29,41 @@ class ChatScreen extends StatelessWidget {
       body: BlocBuilder<ProfileCubit, ProfileState>(
         builder: (context, state) {
           return state.profileState.observe(
-            (data) => SafeArea(
-              child: SingleChildScrollView(
-                padding: const EdgeInsets.all(16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    ListTile(
-                      contentPadding: EdgeInsets.zero,
-                      leading: GestureDetector(
-                        onTap: () => _chatRouter.navigateToAccountScreen(),
-                        child: data!.photo.isEmpty
-                            ? Assets.images.icons.account.emptyPhoto.svg(
-                                width: 50,
-                                height: 50,
-                              )
-                            : ClipRRect(
-                                borderRadius: BorderRadius.circular(100),
-                                child: CachedNetworkImage(
-                                  width: 50,
-                                  height: 50,
-                                  imageUrl: data.photo,
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
-                      ),
-                      title: Text(
-                        data.username,
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16.sp,
+            (dataStream) => StreamBuilder(
+              stream: dataStream,
+              builder: (context, snapshot) {
+                if (!snapshot.hasData) {
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
+                final data = snapshot.data;
+                return SafeArea(
+                  child: SingleChildScrollView(
+                    padding: const EdgeInsets.all(16),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        UserItem(
+                          contentPadding: EdgeInsets.zero,
+                          onTap: () => _chatRouter.navigateToAccountScreen(),
+                          user: data!,
                         ),
-                      ),
-                      subtitle: Text(
-                        data.email,
-                        style: TextStyle(
-                          fontWeight: FontWeight.w400,
-                          fontSize: 14.sp,
+                        SizedBox(
+                          height: 16.h,
                         ),
-                      ),
+                        Text(
+                          'Chat',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16.sp,
+                          ),
+                        ),
+                      ],
                     ),
-                    SizedBox(
-                      height: 16.h,
-                    ),
-                    Text(
-                      'Chat',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16.sp,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+                  ),
+                );
+              },
             ),
           );
         },

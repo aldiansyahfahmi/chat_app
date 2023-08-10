@@ -70,35 +70,46 @@ class AccountScreen extends StatelessWidget {
         child: BlocBuilder<ProfileCubit, ProfileState>(
           builder: (context, state) {
             return state.profileState.observe(
-              (data) => SingleChildScrollView(
-                padding: const EdgeInsets.all(16),
-                child: Column(
-                  children: [
-                    Photo(
-                      data: data!,
-                      size: 124,
+              (dataStream) => StreamBuilder(
+                stream: dataStream,
+                builder: (context, snapshot) {
+                  if (!snapshot.hasData) {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+                  final data = snapshot.data;
+                  return SingleChildScrollView(
+                    padding: const EdgeInsets.all(16),
+                    child: Column(
+                      children: [
+                        Photo(
+                          data: data!,
+                          size: 124,
+                        ),
+                        SizedBox(
+                          height: 16.h,
+                        ),
+                        Text(
+                          data.username,
+                          style: TextStyle(
+                            fontSize: 16.sp,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        SizedBox(
+                          height: 4.h,
+                        ),
+                        Text(
+                          data.email,
+                          style: TextStyle(
+                            fontSize: 14.sp,
+                          ),
+                        ),
+                      ],
                     ),
-                    SizedBox(
-                      height: 16.h,
-                    ),
-                    Text(
-                      data.username,
-                      style: TextStyle(
-                        fontSize: 16.sp,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    SizedBox(
-                      height: 4.h,
-                    ),
-                    Text(
-                      data.email,
-                      style: TextStyle(
-                        fontSize: 14.sp,
-                      ),
-                    ),
-                  ],
-                ),
+                  );
+                },
               ),
             );
           },

@@ -3,7 +3,7 @@ import 'package:equatable/equatable.dart';
 import '/shared_libraries/utils/state/view_data_state.dart';
 
 class ProfileState extends Equatable {
-  final ViewData<UserDataEntity> profileState;
+  final ViewData<Stream<UserDataEntity>> profileState;
 
   const ProfileState({required this.profileState});
 

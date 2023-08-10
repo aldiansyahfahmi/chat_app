@@ -37,7 +37,7 @@ class NewChatScreen extends StatelessWidget {
                     return UserItem(
                       user: user,
                       onTap: () => _chatRouter.navigateToChatRoomScreen(
-                        userDataDto: user,
+                        userDataEntity: user,
                       ),
                     );
                   },

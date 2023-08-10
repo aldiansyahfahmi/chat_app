@@ -1,4 +1,4 @@
-import 'package:chat_app/domains/user/data/models/response/user_data_dto.dart';
+import 'package:chat_app/domains/user/domain/entities/response/user_data_entity.dart';
 import 'package:chat_app/injections/injections.dart';
 import 'package:chat_app/presentation/auth/bloc/photo_picker_cubit/photo_picker_cubit.dart';
 import 'package:chat_app/presentation/auth/bloc/upload_photo_bloc/upload_photo_bloc.dart';
@@ -148,7 +148,7 @@ class MyApp extends StatelessWidget {
                       ),
                     ],
                     child: ChatRoomScreen(
-                      user: arguments as UserDataDto,
+                      user: arguments as UserDataEntity,
                     ),
                   ),
                   type: PageTransitionType.rightToLeft,

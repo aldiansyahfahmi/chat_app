@@ -22,16 +22,12 @@ class ProfileCubit extends Cubit<ProfileState> {
           ),
         ),
       ),
-      (result) => result.listen(
-        (event) {
-          emit(
-            ProfileState(
-              profileState: ViewData.loaded(
-                data: event,
-              ),
-            ),
-          );
-        },
+      (result) => emit(
+        ProfileState(
+          profileState: ViewData.loaded(
+            data: result,
+          ),
+        ),
       ),
     );
   }

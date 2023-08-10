@@ -1,4 +1,4 @@
-import 'package:chat_app/domains/user/data/models/response/user_data_dto.dart';
+import 'package:chat_app/domains/user/domain/entities/response/user_data_entity.dart';
 
 import '../../navigation/navigation_helper.dart';
 import 'app_routes.dart';
@@ -6,7 +6,7 @@ import 'app_routes.dart';
 abstract class ChatRouter {
   void navigateToAccountScreen();
   void navigateToNewChatScreen();
-  void navigateToChatRoomScreen({required UserDataDto userDataDto});
+  void navigateToChatRoomScreen({required UserDataEntity userDataEntity});
 }
 
 class ChatRouterImpl implements ChatRouter {
@@ -24,6 +24,6 @@ class ChatRouterImpl implements ChatRouter {
       navigationHelper.pushNamed(AppRoutes.newChat);
 
   @override
-  void navigateToChatRoomScreen({required UserDataDto userDataDto}) =>
-      navigationHelper.pushNamed(AppRoutes.chatRoom, arguments: userDataDto);
+  void navigateToChatRoomScreen({required UserDataEntity userDataEntity}) =>
+      navigationHelper.pushNamed(AppRoutes.chatRoom, arguments: userDataEntity);
 }
