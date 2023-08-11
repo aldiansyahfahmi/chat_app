@@ -2,6 +2,7 @@ import 'package:chat_app/domains/user/domain/entities/response/user_data_entity.
 import 'package:chat_app/injections/injections.dart';
 import 'package:chat_app/presentation/auth/bloc/photo_picker_cubit/photo_picker_cubit.dart';
 import 'package:chat_app/presentation/auth/bloc/upload_photo_bloc/upload_photo_bloc.dart';
+import 'package:chat_app/presentation/chat/bloc/my_chats_cubit/my_chats_cubit.dart';
 import 'package:chat_app/presentation/chat/bloc/send_message_bloc/send_message_bloc.dart';
 import 'package:chat_app/presentation/user/bloc/all_users_cubit/all_users_cubit.dart';
 import 'package:chat_app/presentation/chat/ui/chat_room_screen.dart';
@@ -95,10 +96,24 @@ class MyApp extends StatelessWidget {
                 );
               case AppRoutes.chat:
                 return PageTransition(
-                  child: BlocProvider(
-                    create: (context) => ProfileCubit(
-                      getProfileUseCase: sl(),
-                    )..getProfile(),
+                  child: MultiBlocProvider(
+                    providers: [
+                      BlocProvider(
+                        create: (context) => ProfileCubit(
+                          getProfileUseCase: sl(),
+                        )..getProfile(),
+                      ),
+                      BlocProvider(
+                        create: (context) => MyChatsCubit(
+                          getMyChatsUseCase: sl(),
+                        )..getMyChats(),
+                      ),
+                      BlocProvider(
+                        create: (context) => UserByIdCubit(
+                          getUserByIdUseCase: sl(),
+                        ),
+                      ),
+                    ],
                     child: ChatScreen(),
                   ),
                   type: PageTransitionType.rightToLeft,

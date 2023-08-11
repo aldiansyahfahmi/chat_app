@@ -1,11 +1,13 @@
 import 'dart:developer';
 
 import 'package:chat_app/domains/chat/data/models/body/create_chat_room_request_dto.dart';
+import 'package:chat_app/domains/chat/data/models/response/my_chat_data_dto.dart';
 import 'package:chat_app/services/firestore_service.dart';
 import 'package:chat_app/shared_libraries/utils/constants/app_constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 abstract class ChatRemoteDataSource {
+  Future<Stream<List<MyChatDataDto>>> getMyChats();
   Future<void> sendMessage({required CreateChatRoomRequestDto requestDto});
 }
 
@@ -66,6 +68,25 @@ class ChatRemoteDataSourceImpl implements ChatRemoteDataSource {
           'sender': auth.currentUser!.email,
         });
       }
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<Stream<List<MyChatDataDto>>> getMyChats() async {
+    try {
+      final result = firestoreService.usersCollection
+          .doc(auth.currentUser!.email)
+          .collection(AppConstants.appCollection.chat)
+          .snapshots();
+      return result.map(
+        (event) => List<MyChatDataDto>.from(
+          event.docs.map(
+            (e) => MyChatDataDto.fromJson(e.data()),
+          ),
+        ),
+      );
     } catch (e) {
       rethrow;
     }
