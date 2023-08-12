@@ -6,6 +6,7 @@ import 'package:chat_app/presentation/chat/bloc/send_message_bloc/send_message_b
 import 'package:chat_app/presentation/chat/bloc/send_message_bloc/send_message_event.dart';
 import 'package:chat_app/presentation/user/bloc/user_by_id_cubit/user_by_id_cubit.dart';
 import 'package:chat_app/presentation/user/bloc/user_by_id_cubit/user_by_id_state.dart';
+import 'package:chat_app/shared_libraries/component/card/message_card.dart';
 import 'package:chat_app/shared_libraries/component/item/user_item.dart';
 import 'package:chat_app/shared_libraries/utils/navigation/arguments/chat_room_argument.dart';
 import 'package:chat_app/shared_libraries/utils/resources/colors.gen.dart';
@@ -92,10 +93,13 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
                                       }
                                       final messagesData = snapshot.data;
                                       return ListView.separated(
+                                        padding: const EdgeInsets.all(16),
                                         reverse: true,
                                         itemBuilder: (context, index) {
                                           final data = messagesData[index];
-                                          return Text(data.message);
+                                          return MessageCard(
+                                            messageDataEntity: data,
+                                          );
                                         },
                                         separatorBuilder: (context, index) {
                                           return SizedBox(

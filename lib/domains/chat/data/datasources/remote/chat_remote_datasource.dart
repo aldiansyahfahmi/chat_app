@@ -64,6 +64,10 @@ class ChatRemoteDataSourceImpl implements ChatRemoteDataSource {
 
         await firestoreService.chatCollection
             .doc(myChat.docs.first.data()['chat_id'])
+            .update({'last_message': requestDto.message});
+
+        await firestoreService.chatCollection
+            .doc(myChat.docs.first.data()['chat_id'])
             .collection('messages')
             .add(requestDto.toJson());
       }

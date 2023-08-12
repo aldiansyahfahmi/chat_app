@@ -72,5 +72,6 @@ class ChatMapper {
       MessageDataEntity(
         message: data.message,
         sender: data.sender,
+        time: data.time,
       );
 }
