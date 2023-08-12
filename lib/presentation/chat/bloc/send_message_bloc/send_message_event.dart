@@ -1,4 +1,4 @@
-import 'package:chat_app/domains/chat/domain/entities/body/create_chat_room_request_entity.dart';
+import 'package:chat_app/domains/chat/domain/entities/body/send_message_request_entity.dart';
 import 'package:equatable/equatable.dart';
 
 abstract class SendMessageEvent extends Equatable {
@@ -6,7 +6,7 @@ abstract class SendMessageEvent extends Equatable {
 }
 
 class SendMessage extends SendMessageEvent {
-  final CreateChatRoomRequestEntity sendMessageRequestEntity;
+  final SendMessageRequestEntity sendMessageRequestEntity;
 
   const SendMessage({required this.sendMessageRequestEntity});
 

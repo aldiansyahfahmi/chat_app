@@ -3,6 +3,7 @@ import 'package:chat_app/presentation/user/bloc/all_users_cubit/all_users_cubit.
 import 'package:chat_app/presentation/user/bloc/all_users_cubit/all_users_state.dart';
 import 'package:chat_app/shared_libraries/component/app_bar/custom_app_bar.dart';
 import 'package:chat_app/shared_libraries/component/item/user_item.dart';
+import 'package:chat_app/shared_libraries/utils/navigation/arguments/chat_room_argument.dart';
 import 'package:chat_app/shared_libraries/utils/navigation/router/chat_router.dart';
 import 'package:chat_app/shared_libraries/utils/state/view_data_state.dart';
 import 'package:flutter/material.dart';
@@ -37,7 +38,10 @@ class NewChatScreen extends StatelessWidget {
                     return UserItem(
                       user: user,
                       onTap: () => _chatRouter.navigateToChatRoomScreen(
-                        userDataEntity: user,
+                        argument: ChatRoomArgument(
+                          userDataEntity: user,
+                          chatId: 'chatId',
+                        ),
                       ),
                     );
                   },

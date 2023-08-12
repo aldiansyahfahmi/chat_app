@@ -1,25 +1,19 @@
+import 'package:chat_app/domains/chat/data/models/body/create_chat_room_request_dto.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
 class SendMessageRequestDto {
-  final String toEmail;
-  final String userId;
+  final CreateChatRoomRequestDto createChatRoomRequestDto;
+  final String chatWith;
   final String message;
-  final String sender;
-  final String timestamp;
-  final bool isRead;
 
   SendMessageRequestDto({
-    required this.toEmail,
-    required this.userId,
+    required this.createChatRoomRequestDto,
+    required this.chatWith,
     required this.message,
-    required this.sender,
-    required this.timestamp,
-    required this.isRead,
   });
 
   Map<String, dynamic> toJson() => {
-        'to_email': toEmail,
         'message': message,
-        'sender': sender,
-        'timestamp': timestamp,
-        'is_read': isRead,
+        'sender': FirebaseAuth.instance.currentUser!.email,
       };
 }

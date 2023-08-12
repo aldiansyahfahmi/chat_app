@@ -1,7 +1,7 @@
-import 'package:chat_app/domains/user/domain/entities/response/user_data_entity.dart';
 import 'package:chat_app/injections/injections.dart';
 import 'package:chat_app/presentation/auth/bloc/photo_picker_cubit/photo_picker_cubit.dart';
 import 'package:chat_app/presentation/auth/bloc/upload_photo_bloc/upload_photo_bloc.dart';
+import 'package:chat_app/presentation/chat/bloc/messages_cubit/messages_cubit.dart';
 import 'package:chat_app/presentation/chat/bloc/my_chats_cubit/my_chats_cubit.dart';
 import 'package:chat_app/presentation/chat/bloc/send_message_bloc/send_message_bloc.dart';
 import 'package:chat_app/presentation/user/bloc/all_users_cubit/all_users_cubit.dart';
@@ -18,6 +18,7 @@ import 'package:chat_app/presentation/chat/ui/chat_screen.dart';
 import 'package:chat_app/presentation/chat/ui/new_chat_screen.dart';
 import 'package:chat_app/presentation/splash/bloc/splash_cubit/splash_cubit.dart';
 import 'package:chat_app/presentation/splash/ui/splash_screen.dart';
+import 'package:chat_app/shared_libraries/utils/navigation/arguments/chat_room_argument.dart';
 import 'package:chat_app/shared_libraries/utils/resources/fonts.gen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -161,9 +162,14 @@ class MyApp extends StatelessWidget {
                           sendMessageUseCase: sl(),
                         ),
                       ),
+                      BlocProvider(
+                        create: (context) => MessagesCubit(
+                          getMessagesUseCase: sl(),
+                        ),
+                      ),
                     ],
                     child: ChatRoomScreen(
-                      user: arguments as UserDataEntity,
+                      argument: arguments as ChatRoomArgument,
                     ),
                   ),
                   type: PageTransitionType.rightToLeft,

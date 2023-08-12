@@ -2,6 +2,7 @@ import 'package:chat_app/domains/chat/data/datasources/remote/chat_remote_dataso
 import 'package:chat_app/domains/chat/data/mapper/chat_mapper.dart';
 import 'package:chat_app/domains/chat/data/repositories/chat_repository_impl.dart';
 import 'package:chat_app/domains/chat/domain/repositories/chat_repository.dart';
+import 'package:chat_app/domains/chat/domain/usecases/get_messages_usecase.dart';
 import 'package:chat_app/domains/chat/domain/usecases/get_my_chats_usecase.dart';
 import 'package:chat_app/domains/chat/domain/usecases/send_message_usecase.dart';
 import 'package:chat_app/injections/injections.dart';
@@ -43,6 +44,11 @@ class ChatDependency {
     );
     sl.registerLazySingleton<GetMyChatsUseCase>(
       () => GetMyChatsUseCase(
+        chatRepository: sl(),
+      ),
+    );
+    sl.registerLazySingleton<GetMessagesUseCase>(
+      () => GetMessagesUseCase(
         chatRepository: sl(),
       ),
     );

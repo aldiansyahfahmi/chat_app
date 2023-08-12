@@ -8,5 +8,5 @@ class FirestoreService {
       firebaseFirestore.collection(AppConstants.appCollection.users);
 
   final chatCollection =
-      firebaseFirestore.collection(AppConstants.appCollection.chat);
+      firebaseFirestore.collection(AppConstants.appCollection.chats);
 }

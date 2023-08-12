@@ -5,6 +5,7 @@ import 'package:chat_app/presentation/chat/bloc/my_chats_cubit/my_chats_state.da
 import 'package:chat_app/presentation/user/bloc/profile_cubit/profile_cubit.dart';
 import 'package:chat_app/presentation/user/bloc/profile_cubit/profile_state.dart';
 import 'package:chat_app/shared_libraries/component/item/user_item.dart';
+import 'package:chat_app/shared_libraries/utils/navigation/arguments/chat_room_argument.dart';
 import 'package:chat_app/shared_libraries/utils/navigation/router/chat_router.dart';
 import 'package:chat_app/shared_libraries/utils/resources/colors.gen.dart';
 import 'package:chat_app/shared_libraries/utils/state/view_data_state.dart';
@@ -81,7 +82,7 @@ class ChatScreen extends StatelessWidget {
                             child: CircularProgressIndicator(),
                           );
                         }
-                        final data = snapshot.data;
+                        final chatData = snapshot.data;
                         return ListView.separated(
                           shrinkWrap: true,
                           physics: const NeverScrollableScrollPhysics(),
@@ -89,7 +90,7 @@ class ChatScreen extends StatelessWidget {
                             return StreamBuilder<UserDataEntity>(
                               stream: context
                                   .read<MyChatsCubit>()
-                                  .getUsers(userId: data[index].chatWith),
+                                  .getUsers(userId: chatData[index].chatWith),
                               builder: (context, snapshot) {
                                 if (!snapshot.hasData) {
                                   return const Center(
@@ -102,7 +103,11 @@ class ChatScreen extends StatelessWidget {
                                   user: user,
                                   onTap: () =>
                                       _chatRouter.navigateToChatRoomScreen(
-                                          userDataEntity: user),
+                                    argument: ChatRoomArgument(
+                                      userDataEntity: user,
+                                      chatId: chatData[index].chatId,
+                                    ),
+                                  ),
                                 );
                               },
                             );
@@ -112,7 +117,7 @@ class ChatScreen extends StatelessWidget {
                               height: 8.h,
                             );
                           },
-                          itemCount: data!.length,
+                          itemCount: chatData!.length,
                         );
                       },
                     ),

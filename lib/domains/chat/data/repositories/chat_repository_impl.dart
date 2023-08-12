@@ -1,6 +1,7 @@
 import 'package:chat_app/domains/chat/data/datasources/remote/chat_remote_datasource.dart';
 import 'package:chat_app/domains/chat/data/mapper/chat_mapper.dart';
-import 'package:chat_app/domains/chat/domain/entities/body/create_chat_room_request_entity.dart';
+import 'package:chat_app/domains/chat/domain/entities/body/send_message_request_entity.dart';
+import 'package:chat_app/domains/chat/domain/entities/response/message_data_entity.dart';
 import 'package:chat_app/domains/chat/domain/entities/response/my_chat_data_entity.dart';
 import 'package:chat_app/domains/chat/domain/repositories/chat_repository.dart';
 import 'package:chat_app/shared_libraries/utils/error/failure_response.dart';
@@ -19,11 +20,11 @@ class ChatRepositoryImpl implements ChatRepository {
 
   @override
   Future<Either<FailureResponse, NoParams>> sendMessage(
-      {required CreateChatRoomRequestEntity requestEntity}) async {
+      {required SendMessageRequestEntity requestEntity}) async {
     try {
       await chatRemoteDataSoure.sendMessage(
         requestDto:
-            chatMapper.mapCreateChatRoomRequestEntityToCreateChatRoomRequestDto(
+            chatMapper.mapSendMessageRequestEntityToSendMessageRequestDto(
           requestEntity,
         ),
       );
@@ -44,6 +45,22 @@ class ChatRepositoryImpl implements ChatRepository {
     try {
       final result = await chatRemoteDataSoure.getMyChats();
       return Right(chatMapper.mapStreamMyChatDataDtoToStreamEntity(result));
+    } on FirebaseException catch (error) {
+      return Left(
+        FailureResponse(
+          errorMessage: error.message!,
+          statusCode: 500,
+        ),
+      );
+    }
+  }
+
+  @override
+  Future<Either<FailureResponse, Stream<List<MessageDataEntity>>>> getMessages(
+      {required String chatId}) async {
+    try {
+      final result = await chatRemoteDataSoure.getMessages(chatId: chatId);
+      return Right(chatMapper.mapStreamMessageDataDtoToStreamEntity(result));
     } on FirebaseException catch (error) {
       return Left(
         FailureResponse(

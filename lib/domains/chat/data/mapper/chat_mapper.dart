@@ -1,15 +1,28 @@
 import 'package:chat_app/domains/chat/data/models/body/create_chat_room_request_dto.dart';
+import 'package:chat_app/domains/chat/data/models/body/send_message_request_dto.dart';
+import 'package:chat_app/domains/chat/data/models/response/message_data_dto.dart';
 import 'package:chat_app/domains/chat/data/models/response/my_chat_data_dto.dart';
 import 'package:chat_app/domains/chat/domain/entities/body/create_chat_room_request_entity.dart';
+import 'package:chat_app/domains/chat/domain/entities/body/send_message_request_entity.dart';
+import 'package:chat_app/domains/chat/domain/entities/response/message_data_entity.dart';
 import 'package:chat_app/domains/chat/domain/entities/response/my_chat_data_entity.dart';
 
 class ChatMapper {
+  SendMessageRequestDto mapSendMessageRequestEntityToSendMessageRequestDto(
+          SendMessageRequestEntity data) =>
+      SendMessageRequestDto(
+        createChatRoomRequestDto:
+            mapCreateChatRoomRequestEntityToCreateChatRoomRequestDto(
+                data.createChatRoomRequestEntity),
+        chatWith: data.chatWith,
+        message: data.message,
+      );
+
   CreateChatRoomRequestDto
       mapCreateChatRoomRequestEntityToCreateChatRoomRequestDto(
               CreateChatRoomRequestEntity data) =>
           CreateChatRoomRequestDto(
             participants: data.participants,
-            toEmail: data.toEmail,
             lastMessage: data.lastMessage,
           );
 
@@ -38,5 +51,26 @@ class ChatMapper {
       MyChatDataEntity(
         chatId: data.chatId,
         chatWith: data.chatWith,
+      );
+
+  Stream<List<MessageDataEntity>> mapStreamMessageDataDtoToStreamEntity(
+      Stream<List<MessageDataDto>> data) {
+    return data.map((event) => mapMessageDataDtoToEntity(event));
+  }
+
+  List<MessageDataEntity> mapMessageDataDtoToEntity(List<MessageDataDto> data) {
+    List<MessageDataEntity> entity = <MessageDataEntity>[];
+
+    for (MessageDataDto element in data) {
+      entity.add(mapMessageDataDtoToMessageDataEntity(element));
+    }
+
+    return entity;
+  }
+
+  MessageDataEntity mapMessageDataDtoToMessageDataEntity(MessageDataDto data) =>
+      MessageDataEntity(
+        message: data.message,
+        sender: data.sender,
       );
 }

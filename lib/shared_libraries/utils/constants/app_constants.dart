@@ -26,9 +26,9 @@ class AppCollection {
 
   String get users => 'users';
 
-  String get chat => 'chats';
+  String get chats => 'chats';
 
-  String get email => 'email';
+  String get messages => 'messages';
 }
 
 class AppApi {
