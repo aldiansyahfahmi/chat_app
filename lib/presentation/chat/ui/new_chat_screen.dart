@@ -40,7 +40,7 @@ class NewChatScreen extends StatelessWidget {
                       onTap: () => _chatRouter.navigateToChatRoomScreen(
                         argument: ChatRoomArgument(
                           userDataEntity: user,
-                          chatId: 'chatId',
+                          chatId: '',
                         ),
                       ),
                     );

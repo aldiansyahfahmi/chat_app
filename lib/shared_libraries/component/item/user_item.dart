@@ -9,17 +9,19 @@ class UserItem extends StatelessWidget {
     super.key,
     this.onTap,
     this.contentPadding,
-    this.subTitle = true,
+    this.showSubTitile = true,
     this.photoSize = 50,
     this.horizontalTitleGap = 16,
     required this.user,
+    this.subTitle,
   });
   final GestureTapCallback? onTap;
   final UserDataEntity user;
   final EdgeInsetsGeometry? contentPadding;
-  final bool subTitle;
+  final bool showSubTitile;
   final double photoSize;
   final double horizontalTitleGap;
+  final String? subTitle;
 
   @override
   Widget build(BuildContext context) {
@@ -55,9 +57,9 @@ class UserItem extends StatelessWidget {
             fontSize: 16.sp,
           ),
         ),
-        subtitle: subTitle == true
+        subtitle: showSubTitile == true
             ? Text(
-                user.email,
+                subTitle ?? user.email,
                 style: TextStyle(
                   fontWeight: FontWeight.w400,
                   fontSize: 14.sp,

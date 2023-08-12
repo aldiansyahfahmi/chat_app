@@ -51,6 +51,7 @@ class ChatMapper {
       MyChatDataEntity(
         chatId: data.chatId,
         chatWith: data.chatWith,
+        lastMessage: data.lastMessage,
       );
 
   Stream<List<MessageDataEntity>> mapStreamMessageDataDtoToStreamEntity(

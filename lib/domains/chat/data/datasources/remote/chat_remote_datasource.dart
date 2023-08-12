@@ -42,19 +42,28 @@ class ChatRemoteDataSourceImpl implements ChatRemoteDataSource {
         await firestoreService.usersCollection
             .doc(auth.currentUser!.email)
             .collection(AppConstants.appCollection.chats)
-            .add(requestDto.createChatRoomRequestDto.createmyChatJson(
+            .doc(createChat.id)
+            .set(requestDto.createChatRoomRequestDto.createmyChatJson(
               chatId: createChat.id,
               chatWith: requestDto.chatWith,
+              lastMessage: requestDto.message,
             ));
 
         // create friend chat with me
         await firestoreService.usersCollection
             .doc(requestDto.chatWith)
             .collection(AppConstants.appCollection.chats)
-            .add(requestDto.createChatRoomRequestDto.createmyChatJson(
+            .doc(createChat.id)
+            .set(requestDto.createChatRoomRequestDto.createmyChatJson(
               chatId: createChat.id,
               chatWith: auth.currentUser!.email!,
+              lastMessage: requestDto.message,
             ));
+
+        await firestoreService.chatCollection
+            .doc(createChat.id)
+            .collection('messages')
+            .add(requestDto.toJson());
       } else {
         final myChat = await firestoreService.usersCollection
             .doc(auth.currentUser!.email)
@@ -62,12 +71,28 @@ class ChatRemoteDataSourceImpl implements ChatRemoteDataSource {
             .where('chat_with', isEqualTo: requestDto.chatWith)
             .get();
 
-        await firestoreService.chatCollection
-            .doc(myChat.docs.first.data()['chat_id'])
+        String chatId = myChat.docs.first.data()['chat_id'];
+
+        // update my chat
+        await firestoreService.usersCollection
+            .doc(auth.currentUser!.email)
+            .collection(AppConstants.appCollection.chats)
+            .doc(chatId)
+            .update({'last_message': requestDto.message});
+
+        // update friend chat
+        await firestoreService.usersCollection
+            .doc(requestDto.chatWith)
+            .collection(AppConstants.appCollection.chats)
+            .doc(chatId)
             .update({'last_message': requestDto.message});
 
         await firestoreService.chatCollection
-            .doc(myChat.docs.first.data()['chat_id'])
+            .doc(chatId)
+            .update({'last_message': requestDto.message});
+
+        await firestoreService.chatCollection
+            .doc(chatId)
             .collection('messages')
             .add(requestDto.toJson());
       }
@@ -102,6 +127,7 @@ class ChatRemoteDataSourceImpl implements ChatRemoteDataSource {
       final result = firestoreService.chatCollection
           .doc(chatId)
           .collection(AppConstants.appCollection.messages)
+          .orderBy('time', descending: true)
           .snapshots();
       return result.map(
         (event) => List<MessageDataDto>.from(

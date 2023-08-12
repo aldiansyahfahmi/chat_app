@@ -15,9 +15,11 @@ class CreateChatRoomRequestDto {
   Map<String, dynamic> createmyChatJson({
     required String chatId,
     required String chatWith,
+    required String lastMessage,
   }) =>
       {
         'chat_id': chatId,
         'chat_with': chatWith,
+        'last_message': lastMessage,
       };
 }

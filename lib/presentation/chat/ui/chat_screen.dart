@@ -101,6 +101,7 @@ class ChatScreen extends StatelessWidget {
                                 return UserItem(
                                   contentPadding: EdgeInsets.zero,
                                   user: user,
+                                  subTitle: chatData[index].lastMessage,
                                   onTap: () =>
                                       _chatRouter.navigateToChatRoomScreen(
                                     argument: ChatRoomArgument(

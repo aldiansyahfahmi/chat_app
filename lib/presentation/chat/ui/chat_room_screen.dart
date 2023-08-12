@@ -33,14 +33,20 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
         );
   }
 
-  void _getMessages() {
-    context.read<MessagesCubit>().getMessages(chatId: widget.argument.chatId);
+  void _getMessages({String? chatId}) {
+    context.read<MessagesCubit>().getMessages(
+          chatId: widget.argument.chatId.isNotEmpty
+              ? widget.argument.chatId
+              : chatId!,
+        );
   }
 
   @override
   void initState() {
     _getUserById();
-    _getMessages();
+    if (widget.argument.chatId.isNotEmpty) {
+      _getMessages();
+    }
     super.initState();
   }
 
@@ -70,7 +76,7 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
                                 user: data!,
                                 contentPadding:
                                     const EdgeInsets.symmetric(vertical: 8),
-                                subTitle: false,
+                                showSubTitile: false,
                                 photoSize: 40,
                                 horizontalTitleGap: 8,
                               ),
@@ -94,7 +100,6 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
                                       final messagesData = snapshot.data;
                                       return ListView.separated(
                                         padding: const EdgeInsets.all(16),
-                                        reverse: true,
                                         itemBuilder: (context, index) {
                                           final data = messagesData[index];
                                           return MessageCard(
