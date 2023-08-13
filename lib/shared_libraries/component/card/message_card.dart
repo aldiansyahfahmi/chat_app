@@ -1,4 +1,5 @@
 import 'package:chat_app/domains/chat/domain/entities/response/message_data_entity.dart';
+import 'package:chat_app/shared_libraries/utils/extensions/date_time_extension.dart';
 import 'package:chat_app/shared_libraries/utils/resources/colors.gen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/widgets.dart';
@@ -59,7 +60,7 @@ class MessageCard extends StatelessWidget {
           height: 8,
         ),
         Text(
-          messageDataEntity.time,
+          messageDataEntity.time.toDate().toDateFormatWithTime(),
           style: const TextStyle(
             color: ColorName.grey,
             fontSize: 12,

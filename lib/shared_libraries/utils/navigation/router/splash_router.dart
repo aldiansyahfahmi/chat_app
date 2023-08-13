@@ -13,11 +13,11 @@ class SplashRouterImpl implements SplashRouter {
 
   @override
   void navigateToSignInScreen() {
-    navigationHelper.pushNamed(AppRoutes.signIn);
+    navigationHelper.pushNamedAndRemoveUntil(AppRoutes.signIn);
   }
 
   @override
   void navigateToChatScreen() {
-    navigationHelper.pushNamed(AppRoutes.chat);
+    navigationHelper.pushNamedAndRemoveUntil(AppRoutes.chat);
   }
 }

@@ -1,7 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class MessageDataDto {
   final String message;
   final String sender;
-  final String time;
+  final Timestamp time;
 
   MessageDataDto({
     required this.message,

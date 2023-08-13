@@ -18,6 +18,6 @@ class AuthRouterImpl implements AuthRouter {
 
   @override
   void navigateToChatScreen() {
-    navigationHelper.pushNamed(AppRoutes.chat);
+    navigationHelper.pushNamedAndRemoveUntil(AppRoutes.chat);
   }
 }

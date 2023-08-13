@@ -1,4 +1,5 @@
 import 'package:chat_app/domains/chat/data/models/body/create_chat_room_request_dto.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class SendMessageRequestDto {
@@ -15,6 +16,6 @@ class SendMessageRequestDto {
   Map<String, dynamic> toJson() => {
         'message': message,
         'sender': FirebaseAuth.instance.currentUser!.email,
-        'time': DateTime.now().millisecondsSinceEpoch.toString(),
+        'time': Timestamp.now(),
       };
 }

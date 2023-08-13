@@ -127,7 +127,7 @@ class ChatRemoteDataSourceImpl implements ChatRemoteDataSource {
       final result = firestoreService.chatCollection
           .doc(chatId)
           .collection(AppConstants.appCollection.messages)
-          .orderBy('time', descending: true)
+          .orderBy('time')
           .snapshots();
       return result.map(
         (event) => List<MessageDataDto>.from(

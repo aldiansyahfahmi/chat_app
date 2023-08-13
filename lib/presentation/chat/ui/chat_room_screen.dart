@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:chat_app/domains/chat/domain/entities/body/create_chat_room_request_entity.dart';
 import 'package:chat_app/domains/chat/domain/entities/body/send_message_request_entity.dart';
 import 'package:chat_app/presentation/chat/bloc/messages_cubit/messages_cubit.dart';
@@ -25,6 +27,7 @@ class ChatRoomScreen extends StatefulWidget {
 }
 
 class _ChatRoomScreenState extends State<ChatRoomScreen> {
+  final _scrollController = ScrollController();
   final _messageController = TextEditingController();
 
   void _getUserById() {
@@ -98,7 +101,13 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
                                         );
                                       }
                                       final messagesData = snapshot.data;
+                                      Timer(
+                                          Duration.zero,
+                                          () => _scrollController.jumpTo(
+                                              _scrollController
+                                                  .position.maxScrollExtent));
                                       return ListView.separated(
+                                        controller: _scrollController,
                                         padding: const EdgeInsets.all(16),
                                         itemBuilder: (context, index) {
                                           final data = messagesData[index];
