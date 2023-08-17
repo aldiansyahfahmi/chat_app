@@ -6,10 +6,13 @@ import 'package:chat_app/presentation/chat/bloc/messages_cubit/messages_cubit.da
 import 'package:chat_app/presentation/chat/bloc/messages_cubit/messages_state.dart';
 import 'package:chat_app/presentation/chat/bloc/send_message_bloc/send_message_bloc.dart';
 import 'package:chat_app/presentation/chat/bloc/send_message_bloc/send_message_event.dart';
+import 'package:chat_app/presentation/chat/bloc/send_message_bloc/send_message_state.dart';
 import 'package:chat_app/presentation/user/bloc/user_by_id_cubit/user_by_id_cubit.dart';
 import 'package:chat_app/presentation/user/bloc/user_by_id_cubit/user_by_id_state.dart';
+import 'package:chat_app/services/firestore_service.dart';
 import 'package:chat_app/shared_libraries/component/card/message_card.dart';
 import 'package:chat_app/shared_libraries/component/item/user_item.dart';
+import 'package:chat_app/shared_libraries/utils/constants/app_constants.dart';
 import 'package:chat_app/shared_libraries/utils/navigation/arguments/chat_room_argument.dart';
 import 'package:chat_app/shared_libraries/utils/resources/colors.gen.dart';
 import 'package:chat_app/shared_libraries/utils/state/view_data_state.dart';
@@ -56,10 +59,29 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: BlocBuilder<UserByIdCubit, UserByIdState>(
-        builder: (context, state) {
-          return state.userByIdState.observe(
-            (dataStream) => StreamBuilder(
+      body: BlocListener<SendMessageBloc, SendMessageState>(
+        listener: (context, state) {
+          final status = state.sendMessageState.status;
+
+          if (status.isHasData) {
+            final FirestoreService firestoreService = FirestoreService();
+            firestoreService.usersCollection
+                .doc(FirebaseAuth.instance.currentUser!.email)
+                .collection(AppConstants.appCollection.chats)
+                .where('chat_with',
+                    isEqualTo: widget.argument.userDataEntity.email)
+                .get()
+                .then(
+              (value) {
+                _getMessages(chatId: value.docs.first.id);
+              },
+            );
+          }
+        },
+        child: BlocBuilder<UserByIdCubit, UserByIdState>(
+          builder: (context, state) {
+            return state.userByIdState.observe(
+              (dataStream) => StreamBuilder(
                 stream: dataStream,
                 builder: (context, snapshot) {
                   if (!snapshot.hasData) {
@@ -185,13 +207,15 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
                               ),
                             ],
                           ),
-                        )
+                        ),
                       ],
                     ),
                   );
-                }),
-          );
-        },
+                },
+              ),
+            );
+          },
+        ),
       ),
     );
   }

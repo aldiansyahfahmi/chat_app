@@ -140,10 +140,14 @@ class MyApp extends StatelessWidget {
                 );
               case AppRoutes.newChat:
                 return PageTransition(
-                  child: BlocProvider(
-                    create: (context) => AllUsersCubit(
-                      getAllUsersUseCase: sl(),
-                    )..getAllUsers(),
+                  child: MultiBlocProvider(
+                    providers: [
+                      BlocProvider(
+                        create: (context) => AllUsersCubit(
+                          getAllUsersUseCase: sl(),
+                        )..getAllUsers(),
+                      ),
+                    ],
                     child: NewChatScreen(),
                   ),
                   type: PageTransitionType.rightToLeft,
