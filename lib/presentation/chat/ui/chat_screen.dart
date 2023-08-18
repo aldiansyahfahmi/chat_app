@@ -1,16 +1,9 @@
-import 'package:chat_app/domains/user/domain/entities/response/user_data_entity.dart';
 import 'package:chat_app/injections/injections.dart';
-import 'package:chat_app/presentation/chat/bloc/my_chats_cubit/my_chats_cubit.dart';
-import 'package:chat_app/presentation/chat/bloc/my_chats_cubit/my_chats_state.dart';
-import 'package:chat_app/presentation/user/bloc/profile_cubit/profile_cubit.dart';
-import 'package:chat_app/presentation/user/bloc/profile_cubit/profile_state.dart';
-import 'package:chat_app/shared_libraries/component/item/user_item.dart';
-import 'package:chat_app/shared_libraries/utils/navigation/arguments/chat_room_argument.dart';
+import 'package:chat_app/presentation/chat/ui/component/chat/my_chats.dart';
+import 'package:chat_app/presentation/chat/ui/component/chat/user.dart';
 import 'package:chat_app/shared_libraries/utils/navigation/router/chat_router.dart';
 import 'package:chat_app/shared_libraries/utils/resources/colors.gen.dart';
-import 'package:chat_app/shared_libraries/utils/state/view_data_state.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ChatScreen extends StatelessWidget {
@@ -36,28 +29,7 @@ class ChatScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              BlocBuilder<ProfileCubit, ProfileState>(
-                builder: (context, state) {
-                  return state.profileState.observe(
-                    (dataStream) => StreamBuilder(
-                      stream: dataStream,
-                      builder: (context, snapshot) {
-                        if (!snapshot.hasData) {
-                          return const Center(
-                            child: CircularProgressIndicator(),
-                          );
-                        }
-                        final data = snapshot.data;
-                        return UserItem(
-                          contentPadding: EdgeInsets.zero,
-                          onTap: () => _chatRouter.navigateToAccountScreen(),
-                          user: data!,
-                        );
-                      },
-                    ),
-                  );
-                },
-              ),
+              User(),
               SizedBox(
                 height: 16.h,
               ),
@@ -71,60 +43,7 @@ class ChatScreen extends StatelessWidget {
               SizedBox(
                 height: 8.h,
               ),
-              BlocBuilder<MyChatsCubit, MyChatsState>(
-                builder: (context, state) {
-                  return state.myChatsState.observe(
-                    (myChatStream) => StreamBuilder(
-                      stream: myChatStream,
-                      builder: (context, snapshot) {
-                        if (!snapshot.hasData) {
-                          return const Center(
-                            child: CircularProgressIndicator(),
-                          );
-                        }
-                        final chatData = snapshot.data;
-                        return ListView.separated(
-                          shrinkWrap: true,
-                          physics: const NeverScrollableScrollPhysics(),
-                          itemBuilder: (context, index) {
-                            return StreamBuilder<UserDataEntity>(
-                              stream: context
-                                  .read<MyChatsCubit>()
-                                  .getUsers(userId: chatData[index].chatWith),
-                              builder: (context, snapshot) {
-                                if (!snapshot.hasData) {
-                                  return const Center(
-                                    child: CircularProgressIndicator(),
-                                  );
-                                }
-                                final user = snapshot.data!;
-                                return UserItem(
-                                  contentPadding: EdgeInsets.zero,
-                                  user: user,
-                                  subTitle: chatData[index].lastMessage,
-                                  onTap: () =>
-                                      _chatRouter.navigateToChatRoomScreen(
-                                    argument: ChatRoomArgument(
-                                      userDataEntity: user,
-                                      chatId: chatData[index].chatId,
-                                    ),
-                                  ),
-                                );
-                              },
-                            );
-                          },
-                          separatorBuilder: (context, index) {
-                            return SizedBox(
-                              height: 8.h,
-                            );
-                          },
-                          itemCount: chatData!.length,
-                        );
-                      },
-                    ),
-                  );
-                },
-              ),
+              MyChats(),
             ],
           ),
         ),
