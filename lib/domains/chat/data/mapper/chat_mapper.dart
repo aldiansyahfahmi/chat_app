@@ -33,6 +33,16 @@ class ChatMapper {
     );
   }
 
+  Stream<MyChatDataEntity> mapStreamMyChatDataDtoToStreamMyChatDataEntity(
+          Stream<MyChatDataDto> data) =>
+      data.map(
+        (event) => MyChatDataEntity(
+          chatId: event.chatId ?? '',
+          chatWith: event.chatWith ?? '',
+          lastMessage: event.lastMessage ?? '',
+        ),
+      );
+
   List<MyChatDataEntity> mapMyChatDataDtoToEntity(List<MyChatDataDto> data) {
     List<MyChatDataEntity> entity = <MyChatDataEntity>[];
 
@@ -49,9 +59,9 @@ class ChatMapper {
 
   MyChatDataEntity mapMyChatDataDtoToMyChatDataEntity(MyChatDataDto data) =>
       MyChatDataEntity(
-        chatId: data.chatId,
-        chatWith: data.chatWith,
-        lastMessage: data.lastMessage,
+        chatId: data.chatId ?? '',
+        chatWith: data.chatWith ?? '',
+        lastMessage: data.lastMessage ?? '',
       );
 
   Stream<List<MessageDataEntity>> mapStreamMessageDataDtoToStreamEntity(

@@ -11,4 +11,6 @@ abstract class ChatRepository {
       {required SendMessageRequestEntity requestEntity});
   Future<Either<FailureResponse, Stream<List<MessageDataEntity>>>> getMessages(
       {required String chatId});
+  Future<Either<FailureResponse, List<MyChatDataEntity>>> getMyChatWith(
+      {required String email});
 }

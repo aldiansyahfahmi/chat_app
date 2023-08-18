@@ -2,6 +2,7 @@ import 'package:chat_app/injections/injections.dart';
 import 'package:chat_app/presentation/auth/bloc/photo_picker_cubit/photo_picker_cubit.dart';
 import 'package:chat_app/presentation/auth/bloc/upload_photo_bloc/upload_photo_bloc.dart';
 import 'package:chat_app/presentation/chat/bloc/messages_cubit/messages_cubit.dart';
+import 'package:chat_app/presentation/chat/bloc/my_chat_with_cubit/my_chat_with_cubit.dart';
 import 'package:chat_app/presentation/chat/bloc/my_chats_cubit/my_chats_cubit.dart';
 import 'package:chat_app/presentation/chat/bloc/send_message_bloc/send_message_bloc.dart';
 import 'package:chat_app/presentation/user/bloc/all_users_cubit/all_users_cubit.dart';
@@ -146,6 +147,11 @@ class MyApp extends StatelessWidget {
                         create: (context) => AllUsersCubit(
                           getAllUsersUseCase: sl(),
                         )..getAllUsers(),
+                      ),
+                      BlocProvider(
+                        create: (context) => MyChatWithCubit(
+                          getMyChatWithUseCase: sl(),
+                        ),
                       ),
                     ],
                     child: NewChatScreen(),

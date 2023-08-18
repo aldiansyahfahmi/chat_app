@@ -9,6 +9,7 @@ abstract class ChatRemoteDataSource {
   Future<Stream<List<MyChatDataDto>>> getMyChats();
   Future<void> sendMessage({required SendMessageRequestDto requestDto});
   Future<Stream<List<MessageDataDto>>> getMessages({required String chatId});
+  Future<List<MyChatDataDto>> getMyChatWith({required String email});
 }
 
 class ChatRemoteDataSourceImpl implements ChatRemoteDataSource {
@@ -133,6 +134,26 @@ class ChatRemoteDataSourceImpl implements ChatRemoteDataSource {
         (event) => List<MessageDataDto>.from(
           event.docs.map(
             (e) => MessageDataDto.fromJson(e.data()),
+          ),
+        ),
+      );
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<List<MyChatDataDto>> getMyChatWith({required String email}) async {
+    try {
+      final result = await firestoreService.usersCollection
+          .doc(FirebaseAuth.instance.currentUser!.email)
+          .collection(AppConstants.appCollection.chats)
+          .where('chat_with', isEqualTo: email)
+          .get();
+      return List<MyChatDataDto>.from(
+        result.docs.map(
+          (e) => MyChatDataDto.fromJson(
+            e.data(),
           ),
         ),
       );

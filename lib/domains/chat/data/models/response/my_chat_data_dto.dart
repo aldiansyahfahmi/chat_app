@@ -1,7 +1,7 @@
 class MyChatDataDto {
-  final String chatId;
-  final String chatWith;
-  final String lastMessage;
+  final String? chatId;
+  final String? chatWith;
+  final String? lastMessage;
 
   MyChatDataDto({
     required this.chatId,

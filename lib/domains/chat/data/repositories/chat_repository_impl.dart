@@ -70,4 +70,22 @@ class ChatRepositoryImpl implements ChatRepository {
       );
     }
   }
+
+  @override
+  Future<Either<FailureResponse, List<MyChatDataEntity>>> getMyChatWith(
+      {required String email}) async {
+    try {
+      final result = await chatRemoteDataSoure.getMyChatWith(email: email);
+      return Right(
+        chatMapper.mapMyChatDataDtoToEntity(result),
+      );
+    } on FirebaseException catch (error) {
+      return Left(
+        FailureResponse(
+          errorMessage: error.message!,
+          statusCode: 500,
+        ),
+      );
+    }
+  }
 }
