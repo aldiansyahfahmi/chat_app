@@ -27,32 +27,30 @@ class BodyChatRoom extends StatelessWidget {
               (messageStream) => StreamBuilder(
                 stream: messageStream,
                 builder: (context, snapshot) {
-                  if (!snapshot.hasData) {
-                    return const Center(
-                      child: CircularProgressIndicator(),
+                  if (snapshot.hasData) {
+                    final messagesData = snapshot.data;
+                    Timer(
+                        Duration.zero,
+                        () => _scrollController.jumpTo(
+                            _scrollController.position.maxScrollExtent));
+                    return ListView.separated(
+                      controller: _scrollController,
+                      padding: const EdgeInsets.all(16),
+                      itemBuilder: (context, index) {
+                        final data = messagesData[index];
+                        return MessageCard(
+                          messageDataEntity: data,
+                        );
+                      },
+                      separatorBuilder: (context, index) {
+                        return SizedBox(
+                          height: 8.h,
+                        );
+                      },
+                      itemCount: messagesData!.length,
                     );
                   }
-                  final messagesData = snapshot.data;
-                  Timer(
-                      Duration.zero,
-                      () => _scrollController
-                          .jumpTo(_scrollController.position.maxScrollExtent));
-                  return ListView.separated(
-                    controller: _scrollController,
-                    padding: const EdgeInsets.all(16),
-                    itemBuilder: (context, index) {
-                      final data = messagesData[index];
-                      return MessageCard(
-                        messageDataEntity: data,
-                      );
-                    },
-                    separatorBuilder: (context, index) {
-                      return SizedBox(
-                        height: 8.h,
-                      );
-                    },
-                    itemCount: messagesData!.length,
-                  );
+                  return const SizedBox();
                 },
               ),
             );

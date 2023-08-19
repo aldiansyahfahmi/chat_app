@@ -36,7 +36,7 @@ class MyChats extends StatelessWidget {
                   return StreamBuilder<UserDataEntity>(
                     stream: context
                         .read<MyChatsCubit>()
-                        .getUsers(userId: chatData[index].chatWith),
+                        .getUser(userId: chatData[index].chatWith),
                     builder: (context, snapshot) {
                       if (!snapshot.hasData) {
                         return const Center(
@@ -48,6 +48,7 @@ class MyChats extends StatelessWidget {
                         contentPadding: EdgeInsets.zero,
                         user: user,
                         subTitle: chatData[index].lastMessage,
+                        totalUnread: chatData[index].totalUnread,
                         onTap: () => _chatRouter.navigateToChatRoomScreen(
                           argument: ChatRoomArgument(
                             userDataEntity: user,

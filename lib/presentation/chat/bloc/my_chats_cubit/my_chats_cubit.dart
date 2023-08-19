@@ -36,7 +36,7 @@ class MyChatsCubit extends Cubit<MyChatsState> {
     );
   }
 
-  Stream<UserDataEntity> getUsers({required String userId}) {
+  Stream<UserDataEntity> getUser({required String userId}) {
     final result = FirestoreService().usersCollection.doc(userId).snapshots();
     return UserMapper().mapStreamUserDataDtoToStreamUserDataEntity(
       result.map(

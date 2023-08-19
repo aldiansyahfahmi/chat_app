@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:chat_app/domains/user/domain/entities/response/user_data_entity.dart';
 import 'package:chat_app/shared_libraries/utils/resources/assets.gen.dart';
+import 'package:chat_app/shared_libraries/utils/resources/colors.gen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -14,6 +15,7 @@ class UserItem extends StatelessWidget {
     this.horizontalTitleGap = 16,
     required this.user,
     this.subTitle,
+    this.totalUnread,
   });
   final GestureTapCallback? onTap;
   final UserDataEntity user;
@@ -22,6 +24,7 @@ class UserItem extends StatelessWidget {
   final double photoSize;
   final double horizontalTitleGap;
   final String? subTitle;
+  final int? totalUnread;
 
   @override
   Widget build(BuildContext context) {
@@ -48,6 +51,22 @@ class UserItem extends StatelessWidget {
                   height: photoSize,
                   imageUrl: user.photo,
                   fit: BoxFit.cover,
+                ),
+              ),
+        trailing: totalUnread == null || totalUnread == 0
+            ? null
+            : Container(
+                padding: const EdgeInsets.all(8),
+                decoration: const BoxDecoration(
+                  color: ColorName.main,
+                  shape: BoxShape.circle,
+                ),
+                child: Text(
+                  totalUnread.toString(),
+                  style: const TextStyle(
+                    color: ColorName.white,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
         title: Text(

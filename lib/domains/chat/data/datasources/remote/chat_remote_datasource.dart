@@ -44,10 +44,11 @@ class ChatRemoteDataSourceImpl implements ChatRemoteDataSource {
             .doc(auth.currentUser!.email)
             .collection(AppConstants.appCollection.chats)
             .doc(createChat.id)
-            .set(requestDto.createChatRoomRequestDto.createmyChatJson(
+            .set(requestDto.createChatRoomRequestDto.createMyChatJson(
               chatId: createChat.id,
               chatWith: requestDto.chatWith,
               lastMessage: requestDto.message,
+              totalUnread: 0,
             ));
 
         // create friend chat with me
@@ -55,10 +56,11 @@ class ChatRemoteDataSourceImpl implements ChatRemoteDataSource {
             .doc(requestDto.chatWith)
             .collection(AppConstants.appCollection.chats)
             .doc(createChat.id)
-            .set(requestDto.createChatRoomRequestDto.createmyChatJson(
+            .set(requestDto.createChatRoomRequestDto.createMyChatJson(
               chatId: createChat.id,
               chatWith: auth.currentUser!.email!,
               lastMessage: requestDto.message,
+              totalUnread: 1,
             ));
 
         await firestoreService.chatCollection
@@ -79,18 +81,30 @@ class ChatRemoteDataSourceImpl implements ChatRemoteDataSource {
             .doc(auth.currentUser!.email)
             .collection(AppConstants.appCollection.chats)
             .doc(chatId)
-            .update({'last_message': requestDto.message});
+            .update({
+          'last_message': requestDto.message,
+        });
 
         // update friend chat
         await firestoreService.usersCollection
             .doc(requestDto.chatWith)
             .collection(AppConstants.appCollection.chats)
             .doc(chatId)
-            .update({'last_message': requestDto.message});
+            .get()
+            .then(
+              (value) async => await firestoreService.usersCollection
+                  .doc(requestDto.chatWith)
+                  .collection(AppConstants.appCollection.chats)
+                  .doc(chatId)
+                  .update({
+                'last_message': requestDto.message,
+                'total_unread': value.data()!['total_unread'] + 1,
+              }),
+            );
 
-        await firestoreService.chatCollection
-            .doc(chatId)
-            .update({'last_message': requestDto.message});
+        await firestoreService.chatCollection.doc(chatId).update({
+          'last_message': requestDto.message,
+        });
 
         await firestoreService.chatCollection
             .doc(chatId)

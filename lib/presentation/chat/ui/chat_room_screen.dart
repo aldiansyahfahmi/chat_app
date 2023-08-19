@@ -64,8 +64,8 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
                     isEqualTo: widget.argument.userDataEntity.email)
                 .get()
                 .then(
-              (value) {
-                _getMessages(chatId: value.docs.first.id);
+              (chat) async {
+                _getMessages(chatId: chat.docs.first.id);
               },
             );
           }
@@ -76,23 +76,19 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
               (dataStream) => StreamBuilder(
                 stream: dataStream,
                 builder: (context, snapshot) {
-                  if (!snapshot.hasData) {
-                    return const Center(
-                      child: CircularProgressIndicator(),
+                  if (snapshot.hasData) {
+                    final data = snapshot.data;
+                    return SafeArea(
+                      child: Column(
+                        children: [
+                          HeaderChatRoom(data: data),
+                          BodyChatRoom(scrollController: _scrollController),
+                          FooterChatRoom(argument: widget.argument)
+                        ],
+                      ),
                     );
                   }
-                  final data = snapshot.data;
-                  return SafeArea(
-                    child: Column(
-                      children: [
-                        HeaderChatRoom(data: data),
-                        BodyChatRoom(scrollController: _scrollController),
-                        FooterChatRoom(
-                          argument: widget.argument,
-                        )
-                      ],
-                    ),
-                  );
+                  return const SizedBox();
                 },
               ),
             );

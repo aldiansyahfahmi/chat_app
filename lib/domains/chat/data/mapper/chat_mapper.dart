@@ -40,6 +40,7 @@ class ChatMapper {
           chatId: event.chatId ?? '',
           chatWith: event.chatWith ?? '',
           lastMessage: event.lastMessage ?? '',
+          totalUnread: event.totalUnread ?? 0,
         ),
       );
 
@@ -59,10 +60,10 @@ class ChatMapper {
 
   MyChatDataEntity mapMyChatDataDtoToMyChatDataEntity(MyChatDataDto data) =>
       MyChatDataEntity(
-        chatId: data.chatId ?? '',
-        chatWith: data.chatWith ?? '',
-        lastMessage: data.lastMessage ?? '',
-      );
+          chatId: data.chatId ?? '',
+          chatWith: data.chatWith ?? '',
+          lastMessage: data.lastMessage ?? '',
+          totalUnread: data.totalUnread ?? 0);
 
   Stream<List<MessageDataEntity>> mapStreamMessageDataDtoToStreamEntity(
       Stream<List<MessageDataDto>> data) {
