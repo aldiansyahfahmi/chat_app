@@ -23,8 +23,6 @@ class ChatRoomScreen extends StatefulWidget {
 }
 
 class _ChatRoomScreenState extends State<ChatRoomScreen> {
-  final _scrollController = ScrollController();
-
   void _getUserById() {
     context.read<UserByIdCubit>().getUserById(
           userId: widget.argument.userDataEntity.email,
@@ -82,7 +80,7 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
                       child: Column(
                         children: [
                           HeaderChatRoom(data: data),
-                          BodyChatRoom(scrollController: _scrollController),
+                          BodyChatRoom(),
                           FooterChatRoom(argument: widget.argument)
                         ],
                       ),

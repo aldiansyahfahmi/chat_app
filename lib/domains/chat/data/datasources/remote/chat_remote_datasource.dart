@@ -139,6 +139,22 @@ class ChatRemoteDataSourceImpl implements ChatRemoteDataSource {
   Future<Stream<List<MessageDataDto>>> getMessages(
       {required String chatId}) async {
     try {
+      // read all message
+      await firestoreService.usersCollection
+          .doc(auth.currentUser!.email)
+          .collection(AppConstants.appCollection.chats)
+          .doc(chatId)
+          .get()
+          .then(
+            (value) async => await firestoreService.usersCollection
+                .doc(auth.currentUser!.email)
+                .collection(AppConstants.appCollection.chats)
+                .doc(chatId)
+                .update({
+              'total_unread': 0,
+            }),
+          );
+
       final result = firestoreService.chatCollection
           .doc(chatId)
           .collection(AppConstants.appCollection.messages)

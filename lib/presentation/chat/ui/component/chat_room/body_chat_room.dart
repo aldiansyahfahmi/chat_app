@@ -9,12 +9,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class BodyChatRoom extends StatelessWidget {
-  const BodyChatRoom({
+  BodyChatRoom({
     super.key,
-    required ScrollController scrollController,
-  }) : _scrollController = scrollController;
+  });
 
-  final ScrollController _scrollController;
+  final ScrollController _scrollController = ScrollController();
 
   @override
   Widget build(BuildContext context) {
